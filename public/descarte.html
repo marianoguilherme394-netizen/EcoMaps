@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>descarte</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app">
+        <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="menu-top">
+        <button class="fechar" onclick="fecharMenu()">✕</button>
+    </div>
+
+    <nav>
+        <a href="index.html" class="ativo">
+            <span>🏠</span>
+            <small>Início</small>
+        </a>
+
+        <a href="sobre.html">
+            <span>ℹ️</span>
+            <small>Sobre</small>
+        </a>
+
+        <a href="perfil.html">
+            <span>👤</span>
+            <small>Conta</small>
+        </a>
+    </nav>
+
+</aside>
+
+<header>
+
+    <div class="logo">
+        <img src="assets/logo.png" alt="Logo">
+        <h3>EcoMaps</h3>
+    </div>
+
+    <button class="menu-btn" onclick="abrirMenu()">
+        ☰
+    </button>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h4>Ecoponto Vila Luiza</h4>
+
+<p>(4.8) ★★★★★</p>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h4>Nome do ponto de descarte</h4>
+
+<p>(4.2) ★★★★☆</p>
+
+</div>
+
+</div>
+    </div>
+    
+
+<script src="js/menu.js"></script>
+
+</body>
+</html>

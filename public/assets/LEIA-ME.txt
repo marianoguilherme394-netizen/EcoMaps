@@ -1,0 +1,2 @@
+As imagens desta pasta foram incluídas para completar os caminhos já usados no projeto original.
+Você pode substituí-las por imagens próprias mantendo os mesmos nomes.

@@ -1,0 +1,22 @@
+{
+  "name": "ecomaps-tcc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EcoMaps com cadastro, autenticação e gerenciamento de usuários em MySQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js && node --check server/config/database.js && node --check server/middleware/auth.js && node --check server/routes/usuarios.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.22.5"
+  }
+}

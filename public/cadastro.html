@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro | EcoMaps</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="menu-top">
+        <button class="fechar" type="button" onclick="fecharMenu()" aria-label="Fechar menu">✕</button>
+      </div>
+      <nav>
+        <a href="index.html"><span>🏠</span><small>Início</small></a>
+        <a href="sobre.html"><span>ℹ️</span><small>Sobre</small></a>
+        <a href="perfil.html" class="ativo"><span>👤</span><small>Conta</small></a>
+      </nav>
+    </aside>
+
+    <header>
+      <div class="logo">
+        <img src="assets/logo.png" alt="Logo EcoMaps">
+        <h3>EcoMaps</h3>
+      </div>
+      <button class="menu-btn" type="button" onclick="abrirMenu()" aria-label="Abrir menu">☰</button>
+    </header>
+
+    <main class="container auth-container">
+      <h1 class="titulo">Cadastre-se</h1>
+
+      <form id="form-cadastro" class="form auth-form" novalidate>
+        <label for="cadastro-nome">Nome completo</label>
+        <input id="cadastro-nome" class="input" name="nome" type="text" placeholder="Seu nome completo" minlength="3" maxlength="120" autocomplete="name" required>
+
+        <label for="cadastro-email">E-mail</label>
+        <input id="cadastro-email" class="input" name="email" type="email" placeholder="seuemail@exemplo.com" maxlength="190" autocomplete="email" required>
+
+        <label for="cadastro-senha">Senha</label>
+        <input id="cadastro-senha" class="input" name="senha" type="password" placeholder="Crie uma senha" minlength="6" maxlength="72" autocomplete="new-password" required>
+
+        <label for="cadastro-confirmar-senha">Confirmar senha</label>
+        <input id="cadastro-confirmar-senha" class="input" type="password" placeholder="Digite a senha novamente" minlength="6" maxlength="72" autocomplete="new-password" required>
+
+        <p id="mensagem-cadastro" class="mensagem-form" role="alert" hidden></p>
+
+        <button class="btn btn-principal" type="submit">Cadastrar-se</button>
+      </form>
+
+      <p class="cadastro-link">
+        Já possui conta? <a href="login.html">Fazer login</a>
+      </p>
+    </main>
+  </div>
+
+  <script src="js/menu.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/cadastro.js"></script>
+</body>
+</html>

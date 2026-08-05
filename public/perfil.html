@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil | EcoMaps</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="menu-top">
+        <button class="fechar" type="button" onclick="fecharMenu()" aria-label="Fechar menu">✕</button>
+      </div>
+      <nav>
+        <a href="index.html"><span>🏠</span><small>Início</small></a>
+        <a href="sobre.html"><span>ℹ️</span><small>Sobre</small></a>
+        <a href="perfil.html" class="ativo"><span>👤</span><small>Conta</small></a>
+      </nav>
+    </aside>
+
+    <header class="perfil-header">
+      <a href="index.html" class="voltar" aria-label="Voltar">←</a>
+      <h2>Perfil</h2>
+      <button class="menu-btn" type="button" onclick="abrirMenu()" aria-label="Abrir menu">☰</button>
+    </header>
+
+    <main class="perfil-conteudo">
+      <section class="perfil-card">
+        <div class="avatar" aria-hidden="true">👤</div>
+        <h1 id="perfil-nome-titulo">Carregando...</h1>
+        <h2>Informações da conta</h2>
+
+        <form id="form-perfil" class="perfil-form">
+          <label for="perfil-nome">Nome completo</label>
+          <input id="perfil-nome" type="text" minlength="3" maxlength="120" autocomplete="name" required>
+
+          <label for="perfil-email">E-mail</label>
+          <input id="perfil-email" type="email" maxlength="190" autocomplete="email" required>
+
+          <p id="mensagem-perfil" class="mensagem-form" role="alert" hidden></p>
+
+          <button class="btn-verde" type="submit">Salvar perfil</button>
+        </form>
+
+        <div class="divisor"></div>
+
+        <h2>Alterar senha</h2>
+        <form id="form-senha" class="perfil-form">
+          <label for="senha-atual">Senha atual</label>
+          <input id="senha-atual" type="password" autocomplete="current-password" required>
+
+          <label for="nova-senha">Nova senha</label>
+          <input id="nova-senha" type="password" minlength="6" maxlength="72" autocomplete="new-password" required>
+
+          <label for="confirmar-nova-senha">Confirmar nova senha</label>
+          <input id="confirmar-nova-senha" type="password" minlength="6" maxlength="72" autocomplete="new-password" required>
+
+          <p id="mensagem-senha" class="mensagem-form" role="alert" hidden></p>
+
+          <button class="btn-branco" type="submit">Mudar senha</button>
+        </form>
+
+        <button id="botao-logout" class="botao-link logout" type="button">Sair da conta</button>
+        <button id="botao-excluir-conta" class="botao-link delete-account" type="button">Excluir conta</button>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/menu.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/perfil.js"></script>
+</body>
+</html>
