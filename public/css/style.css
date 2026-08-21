@@ -57,12 +57,13 @@ header{
 .logo{
     display:flex;
     align-items:center;
-    gap:10px;
+    margin-top: 10px;
+    margin-bottom: 60px;
 }
 
 .logo img{
-    width: 150px;
-    height: 45px;
+    width: 380px;
+    height: auto;
 }
 
 
@@ -74,23 +75,6 @@ header{
     font-size:24px;
 
     cursor:pointer;
-}
-
-/* TITULOS */
-
-.titulo{
-    width:90%;
-
-    margin:80px auto;
-
-    text-align:center;
-
-    font-size:25px;
-    font-weight:600;
-
-    line-height:1.1;
-
-    color:#145c31;
 }
 
 /* FORMULARIOS */
@@ -140,34 +124,16 @@ header{
 
 /* ===== AJUSTES HOME (bater com o modelo) ===== */
 
-.titulo{
-    margin-bottom:100px;
-}
 
 .input-busca{
     width:90%;
     display:block;
-    margin:0 auto 14px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 50px;
     border-radius:25px;
     background:#ffffff;
     box-shadow:0 3px 8px rgba(0,0,0,.12);
-}
-
-.btn-buscar{
-    width:90%;
-    display:block;
-    margin:0 auto 20px;
-    height:52px;
-    border-radius:25px;
-    background:#ffffff;
-    box-shadow:0 3px 8px rgba(0,0,0,.12);
-    font-weight:700;
-    color:#222;
-    border: none;
-}
-
-.btn-buscar:hover{
-    background:#ffffff;
 }
 
 .categorias-home{
@@ -183,25 +149,21 @@ header{
     height:auto;
     padding:14px 10px;
     border-radius:25px;
-    border:2px solid #145c31;
+    border:2px solid #ffffff;
     background-color: #ffffff;
     color:#145c31;
     font-weight:700;
     font-size:15px;
     box-shadow:0 3px 8px rgba(0,0,0,.10);
+    margin-bottom: 15px; 
 }
 
 .categoria:hover{
-    background:#ffffff;
+    background:#d2d1d1;
 }
 
 header{
     background:transparent;
-}
-
-.logo img{
-    width:130px;
-    height:auto;
 }
 
 .menu-btn{
