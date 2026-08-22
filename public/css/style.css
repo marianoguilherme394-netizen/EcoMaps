@@ -75,6 +75,10 @@ header{
     font-size:24px;
 
     cursor:pointer;
+    
+    position:absolute;
+    top:25px;
+    right:18px;
 }
 
 /* FORMULARIOS */
@@ -106,22 +110,6 @@ header{
     outline:2px solid #56b96a;
 }
 
-/* BOTAO */
-
-.btn{
-
-    width:150px;
-
-    height:50px;
-
-    border-radius:25px;
-
-    background:#EFE8F2;
-
-    font-size:18px;
-
-}
-
 /* ===== AJUSTES HOME (bater com o modelo) ===== */
 
 
@@ -149,7 +137,7 @@ header{
     height:auto;
     padding:14px 10px;
     border-radius:25px;
-    border:2px solid #ffffff;
+    border:none;
     background-color: #ffffff;
     color:#145c31;
     font-weight:700;
@@ -177,6 +165,10 @@ header{
 }
 
 /* CARDS DESCARTE */
+
+.sobre-card{
+    font-family:Arial, Helvetica, sans-serif
+}
 
 .card{
     width:95%;
@@ -285,7 +277,7 @@ header{
     top:0;
     right:-95px;
 
-    width:95px;
+    width:80px;
     height:100%;
 
     background:#F2EAF4;
@@ -297,6 +289,9 @@ header{
     transition:right .3s ease;
 
     z-index:1000;
+    position:absolute;
+    
+    
 }
 
 .sidebar.active{
@@ -342,7 +337,7 @@ header{
 }
 
 .sidebar span{
-    font-size:22px;
+    font-size:25px;
 }
 
 .overlay{
@@ -406,7 +401,7 @@ header{
 
 .logo-sobre{
 
-    width:90px;
+    width:300px;
 
     display:block;
 
@@ -582,9 +577,20 @@ button:disabled{
 .fechar{
     border:none;
     background:transparent;
-    font-size:20px;
+    font-size:24px;
     cursor:pointer;
     color:#145c31;
+
+    width:24px;
+    height:24px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:absolute;
+    top:25px;
+    right:25px;
 }
 
 .perfil-header{
