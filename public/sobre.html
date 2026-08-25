@@ -1,100 +1,227 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>sobre</title>
-<link rel="stylesheet" href="css/style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#145c31">
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="assets/logo-reciclagem.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>Sobre | EcoMaps</title>
 </head>
 
 <body>
-    <div class="app">
-        
-    <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
 
-<aside class="sidebar" id="sidebar">
+    <div class="app-shell">
 
-    <div class="menu-top">
-        <button class="fechar" onclick="fecharMenu()">☰</button>
+        <!-- Cabeçalho -->
+        <header class="site-header">
+
+            <a class="brand" href="index.html">
+                <img src="assets/logo.png" alt="EcoMaps">
+            </a>
+
+            <!-- Menu para desktop -->
+            <nav class="desktop-nav">
+                <a class="nav-link" href="index.html">Início</a>
+                <a class="nav-link" href="descarte.html">Encontrar ponto</a>
+                <a class="nav-link active" href="sobre.html">Sobre</a>
+                <a class="nav-link" href="perfil.html">Minha conta</a>
+            </nav>
+
+            <!-- Botão do menu mobile -->
+            <button class="menu-btn" onclick="abrirMenu()">
+                ☰
+            </button>
+
+        </header>
+
+        <!-- Fundo escuro do menu mobile -->
+        <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
+
+        <!-- Menu lateral -->
+        <aside class="sidebar" id="sidebar">
+
+            <div class="sidebar-head">
+                <strong>EcoMaps</strong>
+
+                <button class="fechar" onclick="fecharMenu()">
+                    ✕
+                </button>
+            </div>
+
+            <nav>
+                <a href="index.html">
+                    🏠
+                    <span>Início</span>
+                </a>
+
+                <a href="descarte.html">
+                    📍
+                    <span>Encontrar ponto</span>
+                </a>
+
+                <a class="ativo" href="sobre.html">
+                    🌱
+                    <span>Sobre o projeto</span>
+                </a>
+
+                <a href="perfil.html">
+                    👤
+                    <span>Minha conta</span>
+                </a>
+            </nav>
+
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="about-page">
+
+            <!-- Seção inicial -->
+            <section class="about-hero">
+
+                <span class="eyebrow">
+                    Sobre o EcoMaps
+                </span>
+
+                <h1>
+                    Deixe o planeta mais saudável.
+                </h1>
+
+                <p>
+                    O EcoMaps foi pensado para tornar o descarte correto
+                    mais simples, rápido e acessível. Em poucos passos,
+                    você encontra informações para decidir onde levar
+                    cada tipo de resíduo.
+                </p>
+
+            </section>
+
+            <!-- Cards -->
+            <section class="about-grid">
+
+                <article class="about-card featured">
+
+                    <span>♻️</span>
+
+                    <h2>
+                        Nossa missão
+                    </h2>
+
+                    <p>
+                        Facilitar o acesso à informação sobre descarte
+                        e aproximar pessoas de pontos de coleta e ecopontos.
+                    </p>
+
+                </article>
+
+                <article class="about-card">
+
+                    <span>🌱</span>
+
+                    <h2>
+                        Sustentabilidade
+                    </h2>
+
+                    <p>
+                        O projeto incentiva hábitos mais conscientes
+                        e ajuda a reduzir o descarte inadequado de resíduos.
+                    </p>
+
+                </article>
+
+                <article class="about-card">
+
+                    <span>📍</span>
+
+                    <h2>
+                        Conexão local
+                    </h2>
+
+                    <p>
+                        O mapa organiza os pontos de descarte de forma
+                        visual, facilitando a escolha do local.
+                    </p>
+
+                </article>
+
+                <article class="about-card">
+
+                    <span>💚</span>
+
+                    <h2>
+                        Impacto
+                    </h2>
+
+                    <p>
+                        Pequenas decisões no dia a dia podem contribuir
+                        para cidades mais limpas e saudáveis.
+                    </p>
+
+                </article>
+
+            </section>
+
+            <!-- Banner -->
+            <section class="about-banner">
+
+                <div>
+
+                    <span class="eyebrow">
+                        Nosso propósito
+                    </span>
+
+                    <h2>
+                        Informação que vira atitude.
+                    </h2>
+
+                    <p>
+                        O EcoMaps transforma uma dúvida simples —
+                        “onde eu descarto isso?” — em uma ação prática.
+                    </p>
+
+                </div>
+
+                <a class="btn btn-light" href="descarte.html">
+                    Encontrar um ponto →
+                </a>
+
+            </section>
+
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+
+            <strong>
+                EcoMaps
+            </strong>
+
+            <span>
+                Deixe o planeta mais saudável.
+            </span>
+
+        </footer>
+
     </div>
 
-    <nav>
-        <a href="index.html" class="ativo">
-            <span>🏠</span>
-            <small>Início</small>
-        </a>
-
-        <a href="sobre.html">
-            <span>ℹ️</span>
-            <small>Sobre</small>
-        </a>
-
-        <a href="perfil.html">
-            <span>👤</span>
-            <small>Conta</small>
-        </a>
-    </nav>
-
-</aside>
-
-<header class="header-page">
-
-    <a href="index.html" class="voltar">←</a>
-
-    <button class="menu-btn" onclick="abrirMenu()">
-        ☰
-    </button>
-
-    <h2>Sobre Nós</h2>
-
-</header>
-
-<div class="sobre-card">
-
-    <img src="assets/logo.png" class="logo-sobre">
-
-    <p class="texto">
-        Um aplicativo móvel para facilitar o descarte correto de resíduos,
-        conectando pessoas aos pontos de coleta.
-    </p>
-
-    <div class="info-box">
-
-        <h3>Nossa Missão</h3>
-
-        <p>
-            Promover a sustentabilidade através da reciclagem.
-        </p>
-
-    </div>
-
-    <div class="info-box">
-
-        <h3>Nossa Comunidade</h3>
-
-        <p>
-            Conectamos pessoas e cooperativas.
-        </p>
-
-    </div>
-
-    <div class="info-box">
-
-        <h3>Nossos Parceiros</h3>
-
-        <p>
-            Cooperativas, empresas e pontos de coleta.
-        </p>
-
-    </div>
-
-</div>
-    </div>
-
-<script src="js/menu.js"></script>
+    <!-- JavaScript -->
+    <script src="js/menu.js"></script>
 
 </body>
+
 </html>

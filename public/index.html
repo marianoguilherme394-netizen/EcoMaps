@@ -1,75 +1,77 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>EcoMaps</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#145c31">
+<meta name="description" content="EcoMaps: encontre pontos de descarte e descubra como destinar seus resíduos corretamente.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/logo-reciclagem.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<title>EcoMaps | Descarte do jeito certo</title>
 </head>
 <body>
-    <div class="app">
-       <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
-
-<aside class="sidebar" id="sidebar">
-
-    <div class="menu-top">
-        <button class="fechar" onclick="fecharMenu()">☰</button>
-    </div>
-
-    <nav>
-        <a href="index.html" class="ativo">
-            <span>🏠</span>
-            <small>Início</small>
-        </a>
-
-        <a href="sobre.html">
-            <span>ℹ️</span>
-            <small>Sobre</small>
-        </a>
-
-        <a href="perfil.html">
-            <span>👤</span>
-            <small>Conta</small>
-        </a>
+<div class="app-shell">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="EcoMaps - início">
+      <img src="assets/logo.png" alt="EcoMaps">
+    </a>
+    <nav class="desktop-nav" aria-label="Navegação principal">
+      <a class="nav-link active" href="index.html">Início</a>
+      <a class="nav-link" href="descarte.html">Encontrar ponto</a>
+      <a class="nav-link" href="sobre.html">Sobre</a>
+      <a class="nav-link" href="perfil.html">Minha conta</a>
     </nav>
+    <button class="menu-btn" type="button" onclick="abrirMenu()" aria-label="Abrir menu">☰</button>
+  </header>
 
-</aside>
+  <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
+  <aside class="sidebar" id="sidebar" aria-label="Menu mobile">
+    <div class="sidebar-head"><strong>EcoMaps</strong><button class="fechar" onclick="fecharMenu()" aria-label="Fechar menu">✕</button></div>
+    <nav>
+      <a class="ativo" href="index.html">🏠 <span>Início</span></a>
+      <a href="descarte.html">📍 <span>Encontrar ponto</span></a>
+      <a href="sobre.html">🌱 <span>Sobre o projeto</span></a>
+      <a href="perfil.html">👤 <span>Minha conta</span></a>
+    </nav>
+  </aside>
 
-<header>
-    <button class="menu-btn" onclick="abrirMenu()">
-    ☰
-</button>
-</header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">♻️ Tecnologia para um planeta mais saudável</span>
+        <h1>Descarte certo.<br><span>Impacto positivo.</span></h1>
+        <p>Encontre rapidamente pontos de descarte e descubra onde levar seus resíduos de forma responsável.</p>
+        <form class="search-box" id="home-search">
+          <span class="search-icon">⌕</span>
+          <input id="busca-material" autocomplete="off" placeholder="O que você quer descartar?" aria-label="Material para descarte">
+          <button type="submit">Buscar</button>
+        </form>
+        <div class="search-hints"><span>Experimente:</span> eletrônicos · pilhas · vidro · móveis</div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-circle"><img src="assets/logo-reciclagem.png" alt=""></div>
+        <div class="floating-card card-one">🌱 <strong>+ sustentabilidade</strong></div>
+        <div class="floating-card card-two">📍 <strong>Pontos perto de você</strong></div>
+      </div>
+    </section>
 
-<div class="container">
-
-    <div class="logo">
-        <img src="assets/logo.png">
-    </div>
-
-<input class="input input-busca" placeholder="O que deseja descartar?">
-
-<div class = "categorias-home">
-
-<button class="btn categoria" onclick="window.location.href='descarte.html'">Pilhas e Baterias</button>
-
-<button class="btn categoria" onclick="window.location.href='descarte.html'">Móveis</button>
-
-<button class="btn categoria" onclick="window.location.href='descarte.html'">Eletrônicos</button>
-
-<button class="btn categoria" onclick="window.location.href='descarte.html'">Eletrodomésticos</button>
-
-<button class="btn categoria" onclick="window.location.href='descarte.html'">Madeira e Poda</button>
-
-<button class="btn categoria" onclick="window.location.href='descarte.html'">Entulho</button>
-
+    <section class="section" aria-labelledby="categorias-title">
+      <div class="section-heading"><div><span class="eyebrow">Encontre por categoria</span><h2 id="categorias-title">O que você precisa descartar?</h2></div></div>
+      <div class="category-grid">
+        <button class="category-card" data-material="Pilhas e baterias"><span>🔋</span><strong>Pilhas e baterias</strong><small>Descarte seguro</small></button>
+        <button class="category-card" data-material="Eletrônicos"><span>💻</span><strong>Eletrônicos</strong><small>Celulares e computadores</small></button>
+        <button class="category-card" data-material="Plástico"><span>🥤</span><strong>Plásticos</strong><small>Embalagens e recipientes</small></button>
+        <button class="category-card" data-material="Vidro"><span>🍾</span><strong>Vidros</strong><small>Garrafas e potes</small></button>
+        <button class="category-card" data-material="Móveis"><span>🪑</span><strong>Móveis</strong><small>Objetos volumosos</small></button>
+        <button class="category-card" data-material="Óleo de cozinha"><span class= "gota-amarela">💧</span><strong>Óleo de cozinha</strong><small>Evite o descarte na pia</small></button>
+      </div>
+    </section>
+  </main>
 </div>
-
-</div>
-    </div>
-    
-
 <script src="js/menu.js"></script>
-
 </body>
 </html>

@@ -1,76 +1,461 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil | EcoMaps</title>
-  <link rel="stylesheet" href="css/style.css">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#145c31"
+    >
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="assets/logo-reciclagem.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>Minha conta | EcoMaps</title>
+
 </head>
+
+
 <body>
-  <div class="app">
-    <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
 
-    <aside class="sidebar" id="sidebar">
-      <div class="menu-top">
-        <button class="fechar" type="button" onclick="fecharMenu()" aria-label="Fechar menu">✕</button>
-      </div>
-      <nav>
-        <a href="index.html"><span>🏠</span><small>Início</small></a>
-        <a href="sobre.html"><span>ℹ️</span><small>Sobre</small></a>
-        <a href="perfil.html" class="ativo"><span>👤</span><small>Conta</small></a>
-      </nav>
-    </aside>
+    <div class="app-shell">
 
-    <header class="perfil-header">
-      <a href="index.html" class="voltar" aria-label="Voltar">←</a>
-      <h2>Perfil</h2>
-      <button class="menu-btn" type="button" onclick="abrirMenu()" aria-label="Abrir menu">☰</button>
-    </header>
 
-    <main class="perfil-conteudo">
-      <section class="perfil-card">
-        <div class="avatar" aria-hidden="true">👤</div>
-        <h1 id="perfil-nome-titulo">Carregando...</h1>
-        <h2>Informações da conta</h2>
+        <!-- =====================================================
+             CABEÇALHO
+             ===================================================== -->
 
-        <form id="form-perfil" class="perfil-form">
-          <label for="perfil-nome">Nome completo</label>
-          <input id="perfil-nome" type="text" minlength="3" maxlength="120" autocomplete="name" required>
+        <header class="site-header">
 
-          <label for="perfil-email">E-mail</label>
-          <input id="perfil-email" type="email" maxlength="190" autocomplete="email" required>
+            <!-- Logo -->
+            <a class="brand" href="index.html">
 
-          <p id="mensagem-perfil" class="mensagem-form" role="alert" hidden></p>
+                <img
+                    src="assets/logo.png"
+                    alt="EcoMaps"
+                >
 
-          <button class="btn-verde" type="submit">Salvar perfil</button>
-        </form>
+            </a>
 
-        <div class="divisor"></div>
 
-        <h2>Alterar senha</h2>
-        <form id="form-senha" class="perfil-form">
-          <label for="senha-atual">Senha atual</label>
-          <input id="senha-atual" type="password" autocomplete="current-password" required>
+            <!-- Menu para desktop -->
+            <nav class="desktop-nav">
 
-          <label for="nova-senha">Nova senha</label>
-          <input id="nova-senha" type="password" minlength="6" maxlength="72" autocomplete="new-password" required>
+                <a
+                    class="nav-link"
+                    href="index.html"
+                >
+                    Início
+                </a>
 
-          <label for="confirmar-nova-senha">Confirmar nova senha</label>
-          <input id="confirmar-nova-senha" type="password" minlength="6" maxlength="72" autocomplete="new-password" required>
+                <a
+                    class="nav-link"
+                    href="descarte.html"
+                >
+                    Encontrar ponto
+                </a>
 
-          <p id="mensagem-senha" class="mensagem-form" role="alert" hidden></p>
+                <a
+                    class="nav-link"
+                    href="sobre.html"
+                >
+                    Sobre
+                </a>
 
-          <button class="btn-branco" type="submit">Mudar senha</button>
-        </form>
+                <a
+                    class="nav-link active"
+                    href="perfil.html"
+                >
+                    Minha conta
+                </a>
 
-        <button id="botao-logout" class="botao-link logout" type="button">Sair da conta</button>
-        <button id="botao-excluir-conta" class="botao-link delete-account" type="button">Excluir conta</button>
-      </section>
-    </main>
-  </div>
+            </nav>
 
-  <script src="js/menu.js"></script>
-  <script src="js/api.js"></script>
-  <script src="js/perfil.js"></script>
+
+            <!-- Botão do menu mobile -->
+            <button
+                class="menu-btn"
+                onclick="abrirMenu()"
+            >
+                ☰
+            </button>
+
+        </header>
+
+
+        <!-- =====================================================
+             OVERLAY DO MENU MOBILE
+             ===================================================== -->
+
+        <div
+            class="overlay"
+            id="overlay"
+            onclick="fecharMenu()"
+        ></div>
+
+
+        <!-- =====================================================
+             MENU LATERAL MOBILE
+             ===================================================== -->
+
+        <aside
+            class="sidebar"
+            id="sidebar"
+        >
+
+            <div class="sidebar-head">
+
+                <strong>
+                    EcoMaps
+                </strong>
+
+                <button
+                    class="fechar"
+                    onclick="fecharMenu()"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+
+            <nav>
+
+                <a href="index.html">
+                    🏠
+                    <span>Início</span>
+                </a>
+
+                <a href="descarte.html">
+                    📍
+                    <span>Encontrar ponto</span>
+                </a>
+
+                <a href="sobre.html">
+                    🌱
+                    <span>Sobre o projeto</span>
+                </a>
+
+                <a
+                    class="ativo"
+                    href="perfil.html"
+                >
+                    👤
+                    <span>Minha conta</span>
+                </a>
+
+            </nav>
+
+        </aside>
+
+
+        <!-- =====================================================
+             CONTEÚDO PRINCIPAL
+             ===================================================== -->
+
+        <main class="profile-page">
+
+
+            <!-- =================================================
+                 CABEÇALHO DO PERFIL
+                 ================================================= -->
+
+            <section class="profile-hero">
+
+                <!-- Avatar -->
+                <div class="avatar-large">
+                    ♻️
+                </div>
+
+
+                <!-- Informações do usuário -->
+                <div>
+
+                    <span class="eyebrow">
+                        Minha conta
+                    </span>
+
+                    <h1 id="perfil-nome-titulo">
+                        Carregando...
+                    </h1>
+
+                    <p>
+                        Gerencie seus dados e preferências.
+                    </p>
+
+                </div>
+
+
+                <!-- Botão sair -->
+                <button
+                    id="botao-logout"
+                    class="btn btn-outline"
+                >
+                    Sair
+                </button>
+
+            </section>
+
+
+            <!-- =================================================
+                 PAINÉIS DO PERFIL
+                 ================================================= -->
+
+            <div class="profile-grid">
+
+
+                <!-- =================================================
+                     DADOS PESSOAIS
+                     ================================================= -->
+
+                <section class="profile-panel">
+
+                    <div class="panel-title">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                Dados pessoais
+                            </span>
+
+                            <h2>
+                                Informações da conta
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Formulário de dados pessoais -->
+                    <form
+                        id="form-perfil"
+                        class="perfil-form"
+                    >
+
+                        <label for="perfil-nome">
+                            Nome completo
+                        </label>
+
+                        <input
+                            id="perfil-nome"
+                            type="text"
+                            minlength="3"
+                            maxlength="120"
+                            autocomplete="name"
+                            required
+                        >
+
+
+                        <label for="perfil-email">
+                            E-mail
+                        </label>
+
+                        <input
+                            id="perfil-email"
+                            type="email"
+                            maxlength="190"
+                            autocomplete="email"
+                            required
+                        >
+
+
+                        <!-- Mensagem -->
+                        <p
+                            id="mensagem-perfil"
+                            class="mensagem-form"
+                            role="alert"
+                            hidden
+                        ></p>
+
+
+                        <!-- Botão salvar -->
+                        <button
+                            class="btn btn-principal"
+                            type="submit"
+                        >
+                            Salvar alterações
+                        </button>
+
+                    </form>
+
+                </section>
+
+
+                <!-- =================================================
+                     SEGURANÇA
+                     ================================================= -->
+
+                <section class="profile-panel">
+
+                    <div class="panel-title">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                Segurança
+                            </span>
+
+                            <h2>
+                                Alterar senha
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Formulário de senha -->
+                    <form
+                        id="form-senha"
+                        class="perfil-form"
+                    >
+
+                        <label for="senha-atual">
+                            Senha atual
+                        </label>
+
+                        <input
+                            id="senha-atual"
+                            type="password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+
+                        <label for="nova-senha">
+                            Nova senha
+                        </label>
+
+                        <input
+                            id="nova-senha"
+                            type="password"
+                            minlength="6"
+                            maxlength="72"
+                            autocomplete="new-password"
+                            required
+                        >
+
+
+                        <label for="confirmar-nova-senha">
+                            Confirmar nova senha
+                        </label>
+
+                        <input
+                            id="confirmar-nova-senha"
+                            type="password"
+                            minlength="6"
+                            maxlength="72"
+                            autocomplete="new-password"
+                            required
+                        >
+
+
+                        <!-- Mensagem -->
+                        <p
+                            id="mensagem-senha"
+                            class="mensagem-form"
+                            role="alert"
+                            hidden
+                        ></p>
+
+
+                        <!-- Botão atualizar -->
+                        <button
+                            class="btn btn-outline"
+                            type="submit"
+                        >
+                            Atualizar senha
+                        </button>
+
+                    </form>
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================================
+                 EXCLUSÃO DE CONTA
+                 ================================================= -->
+
+            <section class="danger-zone">
+
+                <div>
+
+                    <strong>
+                        Excluir conta
+                    </strong>
+
+                    <p>
+                        Essa ação remove sua conta permanentemente.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="botao-excluir-conta"
+                    class="btn btn-danger"
+                >
+                    Excluir conta
+                </button>
+
+            </section>
+
+        </main>
+
+
+        <!-- =====================================================
+             RODAPÉ
+             ===================================================== -->
+
+        <footer class="footer">
+
+            <strong>
+                EcoMaps
+            </strong>
+
+            <span>
+                Deixe o planeta mais saudável.
+            </span>
+
+        </footer>
+
+    </div>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+         ========================================================= -->
+
+    <script src="js/menu.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/perfil.js"></script>
+
 </body>
+
 </html>
