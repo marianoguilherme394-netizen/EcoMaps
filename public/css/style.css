@@ -804,7 +804,17 @@ button {
     min-height: 100vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background: #f6faf6;
+    background:
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(120, 207, 132, .35),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #dff3df,
+            #cceacc
+        );
 }
 
 .auth-visual {
@@ -839,7 +849,7 @@ button {
 .auth-visual p {
     color: #d2e7d6;
     line-height: 1.7;
-    margin-top: 15px;
+    margin-top: 0px;
     max-width: 500px;
 }
 
@@ -858,6 +868,9 @@ button {
 
 .mobile-brand {
     display: none;
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 30px;
 }
 
 .back-link {
@@ -1131,7 +1144,8 @@ button {
     }
 
     .mobile-brand {
-        display: inline-flex;
+        display: flex;
+        justify-content: flex-start;
         margin-bottom: 35px;
     }
 
