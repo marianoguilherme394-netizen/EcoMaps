@@ -7,7 +7,7 @@ const usuariosRouter = require('./server/routes/usuarios');
 
 const app = express();
 const PORT = Number(process.env.PORT || 3005);
-const publicDir = path.join(__dirname, 'public');
+const publicDir = path.join(__dirname, 'docs');
 
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
   console.error('Erro: configure JWT_SECRET no arquivo .env com pelo menos 32 caracteres.');
