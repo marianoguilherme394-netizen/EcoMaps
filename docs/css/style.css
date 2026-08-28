@@ -863,7 +863,7 @@ button {
     max-width: 520px;
     width: 100%;
     margin: auto;
-    padding: 45px;
+    padding: 0 45 45px;
 }
 
 .mobile-brand {
