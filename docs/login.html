@@ -3,182 +3,99 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="theme-color"
-        content="#145c31"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#145c31">
     <link rel="icon" href="assets/logo-reciclagem.png">
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
-
     <title>Login | EcoMaps</title>
 </head>
 
 <body>
 
-    <div class="auth-page">
+    <div class="app-shell-login">
 
-        <!-- =====================================================
-             ÁREA VISUAL
-             ===================================================== -->
-
-        <div class="auth-visual">
-
-            <a class="brand" href="index.html">
-                <img
-                    src="assets/logo.png"
-                    alt="EcoMaps"
-                >
+        <!-- ===== BARRA DE NAVEGAÇÃO ===== -->
+        <header class="site-header-login">
+            <a class="brand" href="index.html" aria-label="EcoMaps - início">
+                <img src="assets/logo.png" alt="EcoMaps">
             </a>
+            <nav class="desktop-nav" aria-label="Navegação principal">
+                <a class="nav-link" href="index.html">Início</a>
+                <a class="nav-link" href="descarte.html">Encontrar ponto</a>
+                <a class="nav-link" href="sobre.html">Sobre</a>
+                <a class="nav-link active" href="login.html">Minha conta</a>
+            </nav>
+            <button class="menu-btn" type="button" onclick="abrirMenu()" aria-label="Abrir menu">☰</button>
+        </header>
 
-            <div>
+        <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
+        <aside class="sidebar" id="sidebar" aria-label="Menu mobile">
+            <div class="sidebar-head">
+                <strong>EcoMaps</strong>
+                <button class="fechar" onclick="fecharMenu()" aria-label="Fechar menu">✕</button>
+            </div>
+            <nav>
+                <a href="index.html">🏠 <span>Início</span></a>
+                <a href="descarte.html">📍 <span>Encontrar ponto</span></a>
+                <a href="sobre.html">🌱 <span>Sobre o projeto</span></a>
+                <a class="ativo" href="login.html">👤 <span>Minha conta</span></a>
+            </nav>
+        </aside>
 
-                <span class="eyebrow">
-                    Bem-vindo de volta
-                </span>
 
-                <h1>
-                    Continue fazendo escolhas que fazem bem ao planeta.
-                </h1>
+        <!-- ===== ÁREA DE LOGIN ===== -->
+        <div class="auth-page">
 
-                <p>
-                    Entre para acessar sua conta do EcoMaps.
-                </p>
-
+            <div class="auth-visual">
+                <a class="brand" href="index.html">
+                    <img src="assets/logo.png" alt="EcoMaps">
+                </a>
+                <div>
+                    <span class="eyebrow">Bem-vindo de volta</span>
+                    <h1>Continue fazendo escolhas que fazem bem ao planeta.</h1>
+                    <p>Entre para acessar sua conta do EcoMaps.</p>
+                </div>
+                <span class="auth-quote">“Deixe o planeta mais saudável.”</span>
             </div>
 
-            <span class="auth-quote">
-                “Deixe o planeta mais saudável.”
-            </span>
+            <main class="auth-box">
+
+                <h1>Fazer login</h1>
+                <p class="auth-subtitle">Acesse sua conta para continuar.</p>
+
+                <form id="form-login" class="form auth-form" novalidate>
+
+                    <label for="login-email">E-mail</label>
+                    <input id="login-email" class="input" name="email" type="email" placeholder="seuemail@exemplo.com" autocomplete="email" required>
+
+                    <label for="login-senha">Senha</label>
+                    <input id="login-senha" class="input" name="senha" type="password" placeholder="Sua senha" autocomplete="current-password" required>
+
+                    <p id="mensagem-login" class="mensagem-form" role="alert" hidden></p>
+
+                    <button class="btn btn-principal" type="submit">Entrar</button>
+
+                </form>
+
+                <p class="cadastro-link">
+                    Ainda não possui conta?
+                    <a href="cadastro.html">Criar conta</a>
+                </p>
+
+            </main>
 
         </div>
 
-
-        <!-- =====================================================
-             ÁREA DE LOGIN
-             ===================================================== -->
-
-        <main class="auth-box">
-
-            <!-- Logo para dispositivos móveis -->
-            <a
-                class="mobile-brand brand"
-                href="index.html"
-            >
-                <img
-                    src="assets/logo.png"
-                    alt="EcoMaps"
-                >
-            </a>
-
-            <!-- Título -->
-            <h1>
-                Fazer login
-            </h1>
-
-            <p class="auth-subtitle">
-                Acesse sua conta para continuar.
-            </p>
-
-
-            <!-- =================================================
-                 FORMULÁRIO DE LOGIN
-                 ================================================= -->
-
-            <form
-                id="form-login"
-                class="form auth-form"
-                novalidate
-            >
-
-                <!-- E-mail -->
-                <label for="login-email">
-                    E-mail
-                </label>
-
-                <input
-                    id="login-email"
-                    class="input"
-                    name="email"
-                    type="email"
-                    placeholder="seuemail@exemplo.com"
-                    autocomplete="email"
-                    required
-                >
-
-
-                <!-- Senha -->
-                <label for="login-senha">
-                    Senha
-                </label>
-
-                <input
-                    id="login-senha"
-                    class="input"
-                    name="senha"
-                    type="password"
-                    placeholder="Sua senha"
-                    autocomplete="current-password"
-                    required
-                >
-
-
-                <!-- Mensagem de erro/sucesso -->
-                <p
-                    id="mensagem-login"
-                    class="mensagem-form"
-                    role="alert"
-                    hidden
-                ></p>
-
-
-                <!-- Botão -->
-                <button
-                    class="btn btn-principal"
-                    type="submit"
-                >
-                    Entrar
-                </button>
-
-            </form>
-
-
-            <!-- Link para cadastro -->
-            <p class="cadastro-link">
-                Ainda não possui conta?
-                <a href="cadastro.html">
-                    Criar conta
-                </a>
-            </p>
-
-        </main>
-
     </div>
 
+    <script src="js/menu.js"></script>
     <script src="js/api.js"></script>
     <script src="js/login.js"></script>
 
 </body>
-
 </html>
