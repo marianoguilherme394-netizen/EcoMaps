@@ -1,79 +1,292 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>descarte</title>
-<link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mapa de descarte | EcoMaps</title>
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="app">
-        <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
 
-<aside class="sidebar" id="sidebar">
+<div class="app-shell">
 
-    <div class="menu-top">
-        <button class="fechar" onclick="fecharMenu()">✕</button>
+  <header class="site-header">
+
+    <a class="brand" href="index.html" aria-label="EcoMaps - início">
+      <img src="assets/logo.png" alt="EcoMaps">
+    </a>
+
+    <nav class="desktop-nav" aria-label="Navegação principal">
+      <a class="nav-link" href="index.html">Início</a>
+
+      <a class="nav-link active" href="descarte.html">
+        Encontrar ponto
+      </a>
+
+      <a class="nav-link" href="sobre.html">Sobre</a>
+
+      <a class="nav-link" href="perfil.html">Minha conta</a>
+    </nav>
+
+    <button
+      class="menu-btn"
+      type="button"
+      onclick="abrirMenu()"
+      aria-label="Abrir menu"
+    >
+      ☰
+    </button>
+
+  </header>
+
+
+  <!-- MENU MOBILE -->
+
+  <div
+    class="overlay"
+    id="overlay"
+    onclick="fecharMenu()"
+  ></div>
+
+  <aside
+    class="sidebar"
+    id="sidebar"
+    aria-label="Menu mobile"
+  >
+
+    <div class="sidebar-head">
+
+      <strong>EcoMaps</strong>
+
+      <button
+        class="fechar"
+        onclick="fecharMenu()"
+        aria-label="Fechar menu"
+      >
+        ✕
+      </button>
+
     </div>
 
     <nav>
-        <a href="index.html" class="ativo">
-            <span>🏠</span>
-            <small>Início</small>
-        </a>
 
-        <a href="sobre.html">
-            <span>ℹ️</span>
-            <small>Sobre</small>
-        </a>
+      <a href="index.html">
+        🏠 <span>Início</span>
+      </a>
 
-        <a href="perfil.html">
-            <span>👤</span>
-            <small>Conta</small>
-        </a>
+      <a class="ativo" href="descarte.html">
+        📍 <span>Encontrar ponto</span>
+      </a>
+
+      <a href="sobre.html">
+        🌱 <span>Sobre o projeto</span>
+      </a>
+
+      <a href="perfil.html">
+        👤 <span>Minha conta</span>
+      </a>
+
     </nav>
 
-</aside>
+  </aside>
 
-<header>
+    <!-- CONTEÚDO -->
+    <main class="descarte-page">
 
-    <div class="logo">
-        <img src="assets/logo.png" alt="Logo">
-        <h3>EcoMaps</h3>
-    </div>
+        <h1>
+            Encontre um ponto perto de você
+        </h1>
 
-    <button class="menu-btn" onclick="abrirMenu()">
-        ☰
-    </button>
+        <!-- PESQUISA -->
+        <div class="search-box">
 
-</header>
+            <span class="search-icon">⌕</span>
 
-<div class="container">
+            <input
+                type="text"
+                id="campoBusca"
+                placeholder="Ex.: celular, pilhas, vidro..."
+            >
 
-<div class="card">
+            <button id="btnBuscar">
+                Buscar
+            </button>
 
-<h4>Ecoponto Vila Luiza</h4>
+        </div>
 
-<p>(4.8) ★★★★★</p>
+        <!-- FILTROS -->
+        <div class="filtros">
+
+            <button class="filtro ativo">
+                Todos
+            </button>
+
+            <button class="filtro">
+                Mais próximos
+            </button>
+
+            <button class="filtro">
+                Abertos
+            </button>
+
+        </div>
+
+        <p class="contador">
+            5 pontos encontrados
+        </p>
+
+        <!-- PONTOS -->
+        <section class="lista-pontos">
+
+            <article class="ponto-card">
+
+                <div class="ponto-topo">
+
+                    <h2>
+                        Ecoponto Vila Luiza
+                    </h2>
+
+                    <span class="avaliacao">
+                        ★ 4.8
+                    </span>
+
+                </div>
+
+                <p class="endereco">
+                    Rua Exemplo, 120 — São Paulo
+                </p>
+
+                <div class="tags">
+
+                    <span>Eletrônicos</span>
+                    <span>Móveis</span>
+                    <span>Entulho</span>
+                    <span>Madeira e poda</span>
+
+                </div>
+
+                <div class="acoes">
+
+                    <button class="btn-principal">
+                        Ver no mapa
+                    </button>
+
+                    <button class="btn-secundario">
+                        Como chegar
+                    </button>
+
+                    <button class="btn-favorito">
+                        ♡
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <article class="ponto-card">
+
+                <div class="ponto-topo">
+
+                    <h2>
+                        Ecoponto Parque Paulistano
+                    </h2>
+
+                    <span class="avaliacao">
+                        ★ 4.6
+                    </span>
+
+                </div>
+
+                <p class="endereco">
+                    Av. das Flores, 450 — São Paulo
+                </p>
+
+                <div class="tags">
+
+                    <span>Pilhas e baterias</span>
+                    <span>Eletrônicos</span>
+                    <span>Plástico</span>
+                    <span>Vidro</span>
+
+                </div>
+
+                <div class="acoes">
+
+                    <button class="btn-principal">
+                        Ver no mapa
+                    </button>
+
+                    <button class="btn-secundario">
+                        Como chegar
+                    </button>
+
+                    <button class="btn-favorito">
+                        ♡
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <article class="ponto-card">
+
+                <div class="ponto-topo">
+
+                    <h2>
+                        Ponto Verde Itaquera
+                    </h2>
+
+                    <span class="avaliacao">
+                        ★ 4.7
+                    </span>
+
+                </div>
+
+                <p class="endereco">
+                    Rua das Palmeiras, 80 — São Paulo
+                </p>
+
+                <div class="tags">
+
+                    <span>Plástico</span>
+                    <span>Papel</span>
+                    <span>Vidro</span>
+
+                </div>
+
+                <div class="acoes">
+
+                    <button class="btn-principal">
+                        Ver no mapa
+                    </button>
+
+                    <button class="btn-secundario">
+                        Como chegar
+                    </button>
+
+                    <button class="btn-favorito">
+                        ♡
+                    </button>
+
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
 
 </div>
-
-<br>
-
-<div class="card">
-
-<h4>Nome do ponto de descarte</h4>
-
-<p>(4.2) ★★★★☆</p>
-
 </div>
-
-</div>
-    </div>
-    
 
 <script src="js/menu.js"></script>
+</body>
+</html>
 
 </body>
 </html>

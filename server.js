@@ -4,6 +4,7 @@ const path = require('path');
 const express = require('express');
 const pool = require('./server/config/database');
 const usuariosRouter = require('./server/routes/usuarios');
+const adminRouter = require('./server/routes/admin');
 
 const app = express();
 const PORT = Number(process.env.PORT || 3005);
@@ -28,6 +29,7 @@ app.get('/api/health', async (req, res, next) => {
 });
 
 app.use('/api/usuarios', usuariosRouter);
+app.use('/api/admin', adminRouter);
 app.use(express.static(publicDir));
 
 app.use('/api', (req, res) => {

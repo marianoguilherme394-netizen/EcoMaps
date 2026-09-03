@@ -1,20 +1,53 @@
-const jwt = require('jsonwebtoken');
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
 
-function autenticar(req, res, next) {
-  const authorization = req.headers.authorization || '';
-  const [tipo, token] = authorization.split(' ');
+function abrirMenu() {
+  sidebar.classList.add("active");
+  overlay.classList.add("active");
+}
 
-  if (tipo !== 'Bearer' || !token) {
-    return res.status(401).json({ mensagem: 'Faça login para continuar.' });
+function fecharMenu() {
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+}
+
+async function verificarAdministrador() {
+  const linkAdmin = document.getElementById("link-admin");
+
+  if (!linkAdmin) {
+    return;
+  }
+
+  const token = localStorage.getItem("ecomaps_token");
+
+  if (!token) {
+    linkAdmin.hidden = true;
+    return;
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.usuarioId = Number(payload.sub);
-    return next();
+    const resposta = await fetch("/api/usuarios/me", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!resposta.ok) {
+      linkAdmin.hidden = true;
+      return;
+    }
+
+    const dados = await resposta.json();
+
+    if (dados.usuario && dados.usuario.perfil === "admin") {
+      linkAdmin.hidden = false;
+    } else {
+      linkAdmin.hidden = true;
+    }
   } catch (erro) {
-    return res.status(401).json({ mensagem: 'Sessão inválida ou expirada. Faça login novamente.' });
+    console.error("Não foi possível verificar o perfil do usuário.", erro);
+    linkAdmin.hidden = true;
   }
 }
 
-module.exports = autenticar;
+verificarAdministrador();

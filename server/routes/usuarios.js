@@ -20,6 +20,7 @@ function usuarioPublico(usuario) {
     id: usuario.id,
     nome: usuario.nome,
     email: usuario.email,
+    perfil: usuario.perfil,
     criadoEm: usuario.criado_em,
     atualizadoEm: usuario.atualizado_em
   };
@@ -70,7 +71,7 @@ router.post('/cadastro', async (req, res, next) => {
     );
 
     const [usuarios] = await pool.execute(
-      'SELECT id, nome, email, criado_em, atualizado_em FROM usuarios WHERE id = ?',
+      'SELECT id, nome, email, perfil, criado_em, atualizado_em FROM usuarios WHERE id = ?',
       [resultado.insertId]
     );
 
@@ -98,7 +99,7 @@ router.post('/login', async (req, res, next) => {
     }
 
     const [usuarios] = await pool.execute(
-      'SELECT id, nome, email, senha_hash, criado_em, atualizado_em FROM usuarios WHERE email = ? LIMIT 1',
+      'SELECT id, nome, email, senha_hash, perfil, criado_em, atualizado_em FROM usuarios WHERE email = ? LIMIT 1',
       [email]
     );
 
@@ -124,7 +125,7 @@ router.post('/login', async (req, res, next) => {
 router.get('/me', autenticar, async (req, res, next) => {
   try {
     const [usuarios] = await pool.execute(
-      'SELECT id, nome, email, criado_em, atualizado_em FROM usuarios WHERE id = ? LIMIT 1',
+      'SELECT id, nome, email, perfil, criado_em, atualizado_em FROM usuarios WHERE id = ? LIMIT 1',
       [req.usuarioId]
     );
 
@@ -170,7 +171,7 @@ router.put('/me', autenticar, async (req, res, next) => {
     }
 
     const [usuarios] = await pool.execute(
-      'SELECT id, nome, email, criado_em, atualizado_em FROM usuarios WHERE id = ?',
+      'SELECT id, nome, email, perfil, criado_em, atualizado_em FROM usuarios WHERE id = ?',
       [req.usuarioId]
     );
 

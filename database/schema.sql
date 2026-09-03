@@ -14,3 +14,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
   PRIMARY KEY (id),
   UNIQUE KEY uq_usuarios_email (email)
 ) ENGINE=InnoDB;
+
+ALTER TABLE usuarios
+ADD COLUMN perfil ENUM('usuario', 'admin') NOT NULL DEFAULT 'usuario'
+AFTER senha_hash;
