@@ -12,42 +12,53 @@ function fecharMenu(){
 }
 
 async function verificarAdministrador() {
-  const linkAdmin = document.getElementById("link-admin");
+    const linkAdmin = document.getElementById("link-admin");
+    const linkAdminMobile = document.getElementById("link-admin-mobile");
 
-  if (!linkAdmin) {
-    return;
-  }
+    const token = localStorage.getItem("ecomaps_token");
 
-  const token = localStorage.getItem("ecomaps_token");
-
-  if (!token) {
-    linkAdmin.hidden = true;
-    return;
-  }
-
-  try {
-    const resposta = await fetch("/api/usuarios/me", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    if (!resposta.ok) {
-      linkAdmin.hidden = true;
-      return;
+    if (linkAdmin) {
+        linkAdmin.style.display = "none";
     }
 
-    const dados = await resposta.json();
-
-    if (dados.usuario && dados.usuario.perfil === "admin") {
-      linkAdmin.hidden = false;
-    } else {
-      linkAdmin.hidden = true;
+    if (linkAdminMobile) {
+        linkAdminMobile.style.display = "none";
     }
-  } catch (erro) {
-    console.error("Não foi possível verificar o perfil do usuário.", erro);
-    linkAdmin.hidden = true;
-  }
+
+    if (!token) {
+        return;
+    }
+
+    try {
+        const resposta = await fetch("/api/usuarios/me", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        if (!resposta.ok) {
+            return;
+        }
+
+        const dados = await resposta.json();
+
+        console.log("Usuário:", dados.usuario);
+
+        if (dados.usuario && dados.usuario.perfil === "admin") {
+
+            if (linkAdmin) {
+                linkAdmin.style.display = "flex";
+            }
+
+            if (linkAdminMobile) {
+                linkAdminMobile.style.display = "flex";
+            }
+        }
+
+    } catch (erro) {
+        console.error("Erro ao verificar administrador:", erro);
+    }
 }
 
 verificarAdministrador();

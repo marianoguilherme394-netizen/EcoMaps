@@ -18,3 +18,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 ALTER TABLE usuarios
 ADD COLUMN perfil ENUM('usuario', 'admin') NOT NULL DEFAULT 'usuario'
 AFTER senha_hash;
+
+UPDATE usuarios
+SET perfil = 'admin'
+WHERE email = 'eu@gmail.com';
