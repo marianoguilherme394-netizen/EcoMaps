@@ -22,3 +22,32 @@ AFTER senha_hash;
 UPDATE usuarios
 SET perfil = 'admin'
 WHERE email = 'eu@gmail.com';
+
+
+CREATE TABLE IF NOT EXISTS ecopontos (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    nome VARCHAR(150) NOT NULL,
+    endereco VARCHAR(255) NOT NULL,
+    cidade VARCHAR(120) NOT NULL,
+
+    materiais JSON NOT NULL,
+
+    avaliacao DECIMAL(2,1) NOT NULL DEFAULT 0.0,
+
+    horario_funcionamento VARCHAR(150) NULL,
+
+    link_maps VARCHAR(500) NULL,
+    imagem_url VARCHAR(500) NULL,
+
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
+
+    criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    atualizado_em TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id)
+
+) ENGINE=InnoDB;

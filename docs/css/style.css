@@ -2169,3 +2169,190 @@ button {
     }
 
 }
+
+/* =========================================
+   ADMIN - RESPONSIVIDADE MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .admin-page {
+        width: calc(100% - 24px);
+        padding: 25px 0 50px;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+    }
+
+    .admin-header h1 {
+        font-size: 2rem;
+    }
+
+    .admin-header .btn {
+        width: 100%;
+    }
+
+
+    /* Card de quantidade */
+
+    .admin-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-stat-card {
+        width: 100%;
+        padding: 18px;
+    }
+
+
+    /* Container */
+
+    .admin-section {
+        padding: 15px;
+        border-radius: 16px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+
+    /* Remove necessidade de rolagem horizontal */
+
+    .admin-table-container {
+        overflow: visible;
+        width: 100%;
+    }
+
+
+    .admin-table {
+        width: 100%;
+        min-width: 0;
+        display: block;
+    }
+
+
+    /* Esconde cabeçalho da tabela */
+
+    .admin-table thead {
+        display: none;
+    }
+
+
+    .admin-table tbody {
+        display: block;
+        width: 100%;
+    }
+
+
+    /* Cada ecoponto vira um card */
+
+    .admin-table tr {
+        display: block;
+        width: 100%;
+
+        margin-bottom: 18px;
+
+        padding: 16px;
+
+        border: 1px solid #dfe7e1;
+        border-radius: 16px;
+
+        background: #ffffff;
+
+        box-shadow: 0 5px 18px rgba(20, 92, 49, 0.06);
+    }
+
+
+    /* Cada informação */
+
+    .admin-table td {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: flex-start;
+
+        gap: 15px;
+
+        width: 100%;
+
+        padding: 10px 0;
+
+        border-bottom: 1px solid #edf1ee;
+
+        text-align: right;
+
+        word-break: break-word;
+    }
+
+
+    .admin-table td:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+
+    /* Nome da informação */
+
+    .admin-table td::before {
+        content: attr(data-label);
+
+        flex-shrink: 0;
+
+        font-weight: 700;
+
+        color: #145c31;
+
+        text-align: left;
+    }
+
+
+    /* Nome do ecoponto */
+
+    .admin-table td:first-child strong {
+        font-size: 1rem;
+        color: #183f29;
+    }
+
+
+    /* Botões */
+
+    .admin-actions {
+        display: flex;
+
+        flex-direction: column;
+
+        width: 100%;
+
+        gap: 8px;
+    }
+
+
+    .btn-edit,
+    .btn-delete {
+        width: 100%;
+
+        padding: 11px 14px;
+
+        font-size: 0.9rem;
+    }
+
+
+    /* Modal */
+
+    .modal-overlay {
+        padding: 12px;
+    }
+
+    .modal {
+        width: 100%;
+
+        max-height: 92vh;
+
+        padding: 18px;
+
+        border-radius: 16px;
+    }
+
+}

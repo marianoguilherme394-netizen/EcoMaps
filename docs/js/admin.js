@@ -237,49 +237,49 @@ function renderizarEcopontos() {
                 : "";
 
 
-        linha.innerHTML = `
+                linha.innerHTML = `
 
-            <td>
-                <strong>
-                    ${escaparHTML(ecoponto.nome)}
-                </strong>
-            </td>
-
-            <td>
-                ${escaparHTML(ecoponto.cidade)}
-            </td>
-
-            <td>
-                ${escaparHTML(materiais)}
-            </td>
-
-            <td>
-                ${escaparHTML(ecoponto.endereco)}
-            </td>
-
-            <td>
-
-                <div class="admin-actions">
-
-                    <button
-                        class="btn-edit"
-                        data-id="${ecoponto.id}"
-                    >
-                        Editar
-                    </button>
-
-                    <button
-                        class="btn-delete"
-                        data-id="${ecoponto.id}"
-                    >
-                        Remover
-                    </button>
-
-                </div>
-
-            </td>
-
-        `;
+                <td data-label="Nome">
+                    <strong>
+                        ${escaparHTML(ecoponto.nome)}
+                    </strong>
+                </td>
+            
+                <td data-label="Cidade">
+                    ${escaparHTML(ecoponto.cidade)}
+                </td>
+            
+                <td data-label="Materiais">
+                    ${escaparHTML(materiais)}
+                </td>
+            
+                <td data-label="Endereço">
+                    ${escaparHTML(ecoponto.endereco)}
+                </td>
+            
+                <td data-label="Ações">
+            
+                    <div class="admin-actions">
+            
+                        <button
+                            class="btn-edit"
+                            data-id="${ecoponto.id}"
+                        >
+                            ✏️ Editar
+                        </button>
+            
+                        <button
+                            class="btn-delete"
+                            data-id="${ecoponto.id}"
+                        >
+                            🗑️ Remover
+                        </button>
+            
+                    </div>
+            
+                </td>
+            
+            `;
 
 
         lista.appendChild(linha);
