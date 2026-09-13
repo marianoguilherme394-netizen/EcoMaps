@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Teste do CRUD - EcoMaps</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 0 20px; background: #f4f6f5; }
+  h1 { color: #145c31; }
+  h2 { color: #145c31; margin-top: 30px; border-top: 2px solid #ddd; padding-top: 20px; }
+  label { display: block; margin-top: 8px; font-weight: bold; }
+  input { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; }
+  button { margin-top: 12px; padding: 10px 18px; background: #145c31; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 15px; }
+  button:hover { background: #0e4523; }
+  pre { background: #222; color: #0f0; padding: 12px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; }
+  .passo { background: white; padding: 16px; border-radius: 8px; margin-top: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+</style>
+</head>
+<body>
+
+<h1>🧪 Teste do CRUD — EcoMaps</h1>
+<p>Preencha os campos e clique nos botões, na ordem de cima pra baixo. O resultado de cada ação aparece na caixa preta abaixo do botão — é isso que você tira print pra usar como evidência.</p>
+
+<div class="passo">
+<h2>1. Login como administrador</h2>
+<label>E-mail do admin</label>
+<input id="loginEmail" placeholder="seuemail@exemplo.com">
+<label>Senha</label>
+<input id="loginSenha" type="password" placeholder="sua senha">
+<button onclick="login()">Entrar</button>
+<pre id="resultadoLogin">O resultado do login vai aparecer aqui...</pre>
+</div>
+
+<div class="passo">
+<h2>2. Criar (Cadastrar) um Ecoponto</h2>
+<label>Nome</label>
+<input id="criarNome" value="Ecoponto Jardim das Flores">
+<label>Endereço</label>
+<input id="criarEndereco" value="Rua das Palmeiras, 250">
+<label>Cidade</label>
+<input id="criarCidade" value="São Paulo">
+<label>Materiais aceitos (separados por vírgula)</label>
+<input id="criarMateriais" value="papel, plástico, vidro">
+<button onclick="criar()">Cadastrar Ecoponto</button>
+<pre id="resultadoCriar">O resultado do cadastro vai aparecer aqui...</pre>
+</div>
+
+<div class="passo">
+<h2>3. Consultar todos os Ecopontos</h2>
+<button onclick="consultar()">Consultar Lista</button>
+<pre id="resultadoConsultar">A lista de ecopontos vai aparecer aqui...</pre>
+</div>
+
+<div class="passo">
+<h2>4. Atualizar (Editar) um Ecoponto</h2>
+<label>ID do ecoponto (veja no resultado do passo 2 ou 3)</label>
+<input id="editarId" placeholder="Ex: 1">
+<label>Novo nome</label>
+<input id="editarNome" value="Ecoponto Jardim das Flores - Atualizado">
+<label>Endereço</label>
+<input id="editarEndereco" value="Rua das Palmeiras, 250">
+<label>Cidade</label>
+<input id="editarCidade" value="São Paulo">
+<label>Materiais aceitos (separados por vírgula)</label>
+<input id="editarMateriais" value="papel, plástico, vidro, metal">
+<button onclick="editar()">Salvar Alteração</button>
+<pre id="resultadoEditar">O resultado da edição vai aparecer aqui...</pre>
+</div>
+
+<div class="passo">
+<h2>5. Excluir um Ecoponto</h2>
+<label>ID do ecoponto a excluir</label>
+<input id="excluirId" placeholder="Ex: 1">
+<button onclick="excluir()">Excluir Ecoponto</button>
+<pre id="resultadoExcluir">O resultado da exclusão vai aparecer aqui...</pre>
+</div>
+
+<script>
+let token = "";
+
+async function login() {
+  const email = document.getElementById('loginEmail').value;
+  const senha = document.getElementById('loginSenha').value;
+  const saida = document.getElementById('resultadoLogin');
+  try {
+    const resp = await fetch('/api/usuarios/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha })
+    });
+    const dados = await resp.json();
+    if (resp.ok) {
+      token = dados.token;
+      saida.textContent = "✅ Login feito com sucesso!\nUsuário: " + dados.usuario.nome + "\nToken salvo automaticamente para os próximos passos.";
+    } else {
+      saida.textContent = "❌ Erro: " + JSON.stringify(dados, null, 2);
+    }
+  } catch (e) {
+    saida.textContent = "❌ Erro de conexão: " + e.message;
+  }
+}
+
+function materiaisParaArray(texto) {
+  return texto.split(',').map(m => m.trim()).filter(Boolean);
+}
+
+async function criar() {
+  const saida = document.getElementById('resultadoCriar');
+  if (!token) { saida.textContent = "⚠️ Faça login primeiro (passo 1)."; return; }
+  const body = {
+    nome: document.getElementById('criarNome').value,
+    endereco: document.getElementById('criarEndereco').value,
+    cidade: document.getElementById('criarCidade').value,
+    materiais: materiaisParaArray(document.getElementById('criarMateriais').value)
+  };
+  try {
+    const resp = await fetch('/api/admin/ecopontos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(body)
+    });
+    const dados = await resp.json();
+    saida.textContent = (resp.ok ? "✅ " : "❌ ") + JSON.stringify(dados, null, 2);
+  } catch (e) {
+    saida.textContent = "❌ Erro de conexão: " + e.message;
+  }
+}
+
+async function consultar() {
+  const saida = document.getElementById('resultadoConsultar');
+  if (!token) { saida.textContent = "⚠️ Faça login primeiro (passo 1)."; return; }
+  try {
+    const resp = await fetch('/api/admin/ecopontos', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const dados = await resp.json();
+    saida.textContent = (resp.ok ? "✅ " : "❌ ") + JSON.stringify(dados, null, 2);
+  } catch (e) {
+    saida.textContent = "❌ Erro de conexão: " + e.message;
+  }
+}
+
+async function editar() {
+  const saida = document.getElementById('resultadoEditar');
+  if (!token) { saida.textContent = "⚠️ Faça login primeiro (passo 1)."; return; }
+  const id = document.getElementById('editarId').value;
+  const body = {
+    nome: document.getElementById('editarNome').value,
+    endereco: document.getElementById('editarEndereco').value,
+    cidade: document.getElementById('editarCidade').value,
+    materiais: materiaisParaArray(document.getElementById('editarMateriais').value)
+  };
+  try {
+    const resp = await fetch('/api/admin/ecopontos/' + id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(body)
+    });
+    const dados = await resp.json();
+    saida.textContent = (resp.ok ? "✅ " : "❌ ") + JSON.stringify(dados, null, 2);
+  } catch (e) {
+    saida.textContent = "❌ Erro de conexão: " + e.message;
+  }
+}
+
+async function excluir() {
+  const saida = document.getElementById('resultadoExcluir');
+  if (!token) { saida.textContent = "⚠️ Faça login primeiro (passo 1)."; return; }
+  const id = document.getElementById('excluirId').value;
+  try {
+    const resp = await fetch('/api/admin/ecopontos/' + id, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const dados = await resp.json();
+    saida.textContent = (resp.ok ? "✅ " : "❌ ") + JSON.stringify(dados, null, 2);
+  } catch (e) {
+    saida.textContent = "❌ Erro de conexão: " + e.message;
+  }
+}
+</script>
+
+</body>
+</html>
