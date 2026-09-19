@@ -517,218 +517,6 @@ button {
 
 
 /* =========================================================
-   FINDER
-   ========================================================= */
-
-.finder-page {
-    max-width: 1180px;
-    margin: 30px auto;
-    padding: 0 24px 30px;
-}
-
-.finder-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    gap: 25px;
-    margin-bottom: 22px;
-}
-
-.finder-top h1 {
-    font-size: 34px;
-    letter-spacing: -.03em;
-}
-
-.finder-top p {
-    color: var(--muted);
-    margin-top: 8px;
-}
-
-.location-btn {
-    border: 1px solid #b9d6be;
-    background: #fff;
-    color: var(--green-900);
-    padding: 12px 17px;
-    border-radius: 13px;
-    font-weight: 700;
-}
-
-.finder-layout {
-    display: grid;
-    grid-template-columns: 390px 1fr;
-    height: 640px;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 25px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
-
-.results-panel {
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-}
-
-.search-box.compact {
-    height: 52px;
-    border-radius: 14px;
-    box-shadow: none;
-    border-color: var(--line);
-}
-
-.search-box.compact button {
-    padding: 10px 15px;
-}
-
-.filter-row {
-    display: flex;
-    gap: 7px;
-    margin: 15px 0;
-}
-
-.filter {
-    border: 1px solid var(--line);
-    background: #fff;
-    color: #627068;
-    padding: 8px 10px;
-    border-radius: 10px;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.filter.active {
-    background: var(--green-100);
-    border-color: #b6d8bc;
-    color: var(--green-900);
-}
-
-.result-summary {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 8px;
-}
-
-.points-list {
-    overflow: auto;
-    padding-right: 4px;
-}
-
-.point-card {
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 15px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.point-card:hover,
-.point-card.selected {
-    border-color: #8ec39a;
-    background: var(--green-50);
-}
-
-.point-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.point-card h3 {
-    font-size: 14px;
-}
-
-.rating {
-    font-size: 11px;
-    color: #8b6a00;
-    white-space: nowrap;
-}
-
-.point-card p {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 6px;
-    line-height: 1.5;
-}
-
-.tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 9px;
-}
-
-.tag {
-    font-size: 10px;
-    padding: 5px 7px;
-    border-radius: 7px;
-    background: #eef4ef;
-    color: #476251;
-}
-
-.point-actions {
-    display: flex;
-    gap: 7px;
-    margin-top: 11px;
-}
-
-.point-actions button {
-    border: 0;
-    background: var(--green-900);
-    color: #fff;
-    border-radius: 9px;
-    padding: 7px 9px;
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.point-actions .secondary {
-    background: #fff;
-    color: var(--green-900);
-    border: 1px solid #b9d6be;
-}
-
-
-/* =========================================================
-   MAPA
-   ========================================================= */
-
-.map-wrap {
-    position: relative;
-    min-width: 0;
-}
-
-.map-wrap #map {
-    height: 100%;
-    width: 100%;
-}
-
-.map-legend {
-    position: absolute;
-    bottom: 18px;
-    left: 18px;
-    z-index: 500;
-    background: #fff;
-    padding: 9px 12px;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, .12);
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.map-legend span {
-    display: inline-block;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--green-700);
-    margin-right: 5px;
-}
-
-
-/* =========================================================
    ABOUT / SOBRE
    ========================================================= */
 
@@ -847,7 +635,7 @@ button {
     padding: 55px 9vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     background: linear-gradient(
         145deg,
         #145c31,
@@ -1153,10 +941,6 @@ button {
         margin: 55px auto;
     }
 
-    .finder-layout {
-        grid-template-columns: 340px 1fr;
-    }
-
     .about-hero h1 {
         font-size: 40px;
     }
@@ -1246,40 +1030,6 @@ button {
 
     .footer a {
         margin-left: 0;
-    }
-
-    /* Finder */
-
-    .finder-page {
-        padding: 0 12px;
-    }
-
-    .finder-top {
-        display: block;
-    }
-
-    .finder-top h1 {
-        font-size: 28px;
-    }
-
-    .location-btn {
-        margin-top: 15px;
-    }
-
-    .finder-layout {
-        height: auto;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .results-panel {
-        order: 2;
-        height: 520px;
-    }
-
-    .map-wrap {
-        order: 1;
-        height: 350px;
     }
 
     /* About */
@@ -1441,10 +1191,6 @@ button {
 
     .search-icon {
         padding: 0 7px;
-    }
-
-    .finder-layout .filter-row {
-        overflow: auto;
     }
 
     .filter {
@@ -1669,9 +1415,7 @@ button {
     margin-top: 13px;
 }
 
-.btn-principal,
-.btn-secundario,
-.btn-favorito {
+.btn-principal {
     height: 34px;
 
     border-radius: 9px;
@@ -1692,24 +1436,7 @@ button {
     color: white;
 }
 
-.btn-secundario {
-    padding: 0 11px;
 
-    border: 1px solid #b9d6c2;
-
-    background: white;
-    color: #21643b;
-}
-
-.btn-favorito {
-    width: 34px;
-
-    border: 1px solid #b9d6c2;
-
-    background: white;
-
-    color: #31734a;
-}
 
 /* =========================================
    ADMIN

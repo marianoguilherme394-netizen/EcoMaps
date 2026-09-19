@@ -43,7 +43,6 @@ async function verificarAdministrador() {
 
         const dados = await resposta.json();
 
-        console.log("Usuário:", dados.usuario);
 
         if (dados.usuario && dados.usuario.perfil === "admin") {
 
