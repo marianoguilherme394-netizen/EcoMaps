@@ -43,9 +43,27 @@ async function carregarEcopontos() {
             dados.ecopontos || [];
 
 
-        renderizarEcopontos(
-            ecopontos
-        );
+        const parametros =
+            new URLSearchParams(window.location.search);
+
+        const buscaInicial =
+            parametros.get("busca");
+
+
+        if (buscaInicial) {
+
+            campoBusca.value =
+                buscaInicial;
+
+            pesquisar();
+
+        } else {
+
+            renderizarEcopontos(
+                ecopontos
+            );
+
+        }
 
 
     } catch (erro) {
