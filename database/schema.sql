@@ -52,60 +52,6 @@ CREATE TABLE IF NOT EXISTS ecopontos (
 
 ) ENGINE=InnoDB;
 
-/*CREATE DATABASE IF NOT EXISTS ecomaps
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE ecomaps;
-
-CREATE TABLE IF NOT EXISTS usuarios (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  nome VARCHAR(120) NOT NULL,
-  email VARCHAR(190) NOT NULL,
-  senha_hash VARCHAR(255) NOT NULL,
-  criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
-  UNIQUE KEY uq_usuarios_email (email)
-) ENGINE=InnoDB;
-
-ALTER TABLE usuarios
-ADD COLUMN perfil ENUM('usuario', 'admin') NOT NULL DEFAULT 'usuario'
-AFTER senha_hash;
-
-UPDATE usuarios
-SET perfil = 'admin'
-WHERE email = 'eu@gmail.com';
-
-
-CREATE TABLE IF NOT EXISTS ecopontos (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    nome VARCHAR(150) NOT NULL,
-    endereco VARCHAR(255) NOT NULL,
-    cidade VARCHAR(120) NOT NULL,
-
-    materiais JSON NOT NULL,
-
-    avaliacao DECIMAL(2,1) NOT NULL DEFAULT 0.0,
-
-    horario_funcionamento VARCHAR(150) NULL,
-
-    link_maps VARCHAR(500) NULL,
-    imagem_url VARCHAR(500) NULL,
-
-    ativo BOOLEAN NOT NULL DEFAULT TRUE,
-
-    criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    atualizado_em TIMESTAMP NOT NULL
-        DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
-
-    PRIMARY KEY (id)
-
-) ENGINE=InnoDB;
-
 
 INSERT INTO ecopontos
 (nome, endereco, cidade, materiais, avaliacao, horario_funcionamento, link_maps, imagem_url, ativo)
@@ -116,10 +62,10 @@ VALUES
 'Avenida Aricanduva, 200 - Praça Lúcia Mekhitarian - Aricanduva',
 'São Paulo',
 JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', 'Gesso'),
-0.0,
+4.6,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Avenida+Aricanduva+200+Sao+Paulo',
-NULL,
+'/assets/ecopontos/alberto-badra.png',
 TRUE
 ),
 
@@ -128,22 +74,22 @@ TRUE
 'Rua Astarte, 500 - Vila Carrão',
 'São Paulo',
 JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', 'Gesso'),
-0.0,
+4.3,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Astarte+500+Sao+Paulo',
-NULL,
+'/assets/ecopontos/astarte.png',
 TRUE
 ),
 
 (
 'Ecoponto Nova York',
-'Rua Amélia Vanso Magnoli, 480 - Conjunto Habitacional Barreira Grande',
+'Rua Olivia Trindade Pinto - Jardim das Rosas',
 'São Paulo',
 JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
-0.0,
+4.4,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Amelia+Vanso+Magnoli+480+Sao+Paulo',
-NULL,
+'/assets/ecopontos/nova-york.png',
 TRUE
 ),
 
@@ -152,10 +98,10 @@ TRUE
 'Rua Professor Alzira de Oliveira Gilioli, 400 - Jardim Nice',
 'São Paulo',
 JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', 'Gesso'),
-0.0,
+4.6,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Professor+Alzira+de+Oliveira+Gilioli+400+Sao+Paulo',
-NULL,
+'/assets/ecopontos/aricanduva.png',
 TRUE
 ),
 
@@ -164,10 +110,10 @@ TRUE
 'Rua Caminho do Engenho, 800 - Ferreira',
 'São Paulo',
 JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
-0.0,
+4.2,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Caminho+do+Engenho+800+Sao+Paulo',
-NULL,
+'/assets/ecopontos/jardim-maria-carmo.png',
 TRUE
 ),
 
@@ -176,10 +122,10 @@ TRUE
 'Rua Walter Brito Belletti, s/n - Vila Albano',
 'São Paulo',
 JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', 'Gesso'),
-0.0,
+4.6,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Walter+Brito+Belletti+Sao+Paulo',
-NULL,
+'/assets/ecopontos/jardim-jaqueline.png',
 TRUE
 ),
 
@@ -191,7 +137,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Paulino+Baptista+Conti+2+Sao+Paulo',
-NULL,
+'/assets/ecopontos/politecnica.png',
 TRUE
 ),
 
@@ -203,7 +149,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Avenida+Giovani+Gronchi+3413+Sao+Paulo',
-NULL,
+'/assets/ecopontos/giovani-gronchi.png',
 TRUE
 ),
 
@@ -215,7 +161,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Travessa+Rosifloras+301+Sao+Paulo',
-NULL,
+'/assets/ecopontos/santo-dias.png',
 TRUE
 ),
 
@@ -227,7 +173,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Avenida+Doutor+Salvador+Rocco+261+Sao+Paulo',
-NULL,
+'/assets/ecopontos/parque-fernanda.png',
 TRUE
 ),
 
@@ -239,7 +185,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Campo+Novo+do+Sul+500+Sao+Paulo',
-NULL,
+'/assets/ecopontos/vila-das-belezas.png',
 TRUE
 ),
 
@@ -251,7 +197,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Tereza+Cristina+10+Sao+Paulo',
-NULL,
+'/assets/ecopontos/tereza-cristina.png',
 TRUE
 ),
 
@@ -263,7 +209,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Santa+Cruz+1452+Sao+Paulo',
-NULL,
+'/assets/ecopontos/santa-cruz.png',
 TRUE
 ),
 
@@ -275,7 +221,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Praca+do+Cancioneiro+15+Sao+Paulo',
-NULL,
+'/assets/ecopontos/berrini.png',
 TRUE
 ),
 
@@ -287,7 +233,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Girassol+15+Vila+Madalena+Sao+Paulo',
-NULL,
+'/assets/ecopontos/vila-madalena.png',
 TRUE
 ),
 
@@ -299,7 +245,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Praca+Ministro+Francisco+Sa+Carneiro+6+Sao+Paulo',
-NULL,
+'/assets/ecopontos/glicerio.png',
 TRUE
 ),
 
@@ -311,7 +257,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Jaceguai+67+Sao+Paulo',
-NULL,
+'/assets/ecopontos/liberdade.png',
 TRUE
 ),
 
@@ -323,7 +269,6 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Mauricio+Francisco+Klabin+37+Sao+Paulo',
-NULL,
+'/assets/ecopontos/vila-mariana.png',
 TRUE
 );
-*/
