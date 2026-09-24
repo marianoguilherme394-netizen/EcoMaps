@@ -1,100 +1,77 @@
 # EcoMaps
 
-O EcoMaps é um projeto web para localizar pontos de descarte e ajudar o usuário a encontrar locais adequados para diferentes tipos de resíduos.
+O EcoMaps é um projeto de TCC que ajuda a encontrar ecopontos para o descarte de resíduos. O usuário pode pesquisar locais, consultar os materiais aceitos e abrir o endereço no Google Maps.
 
 ## Funcionalidades
 
 - Busca de ecopontos por material, nome, endereço ou cidade.
-- Atalhos de categorias na página inicial.
-- Filtro de ecopontos abertos com base no horário cadastrado.
-- Exibição de nome, endereço, cidade, materiais aceitos, avaliação, horário, imagem e link para o Maps.
+- Atalhos de materiais na página inicial.
+- Filtro de ecopontos abertos conforme o horário cadastrado.
+- Exibição de endereço, materiais aceitos, horário, avaliação e imagem do local.
 - Cadastro e login de usuários.
-- Autenticação com JWT e senhas protegidas com bcrypt.
-- Consulta e edição do perfil.
-- Alteração de senha e exclusão de conta.
-- Área administrativa protegida por perfil de administrador.
-- CRUD de ecopontos na área administrativa.
+- Consulta e edição do perfil, alteração de senha e exclusão da conta.
+- Área administrativa para cadastrar, editar e remover ecopontos.
 
-## Estrutura principal
+## Tecnologias utilizadas
 
-```text
-EcoMaps/
-├── database/
-│   └── schema.sql
-├── docs/
-│   ├── assets/
-│   ├── css/
-│   ├── js/
-│   ├── index.html
-│   ├── descarte.html
-│   ├── sobre.html
-│   ├── cadastro.html
-│   ├── login.html
-│   ├── perfil.html
-│   └── admin.html
-├── server/
-│   ├── config/
-│   ├── middleware/
-│   └── routes/
-├── .env.example
-├── docker-compose.yml
-├── package.json
-└── server.js
-```
+| Parte do projeto | Tecnologias |
+|---|---|
+| Interface | HTML, CSS e JavaScript |
+| Servidor e API | Node.js e Express |
+| Banco de dados | MySQL |
+| Autenticação | JWT e bcryptjs |
+| Containers | Docker Compose e Nginx |
 
-## Banco de dados
+O front está na pasta `docs/`. O servidor está em `server.js` e na pasta `server/`. O arquivo `database/schema.sql` contém a estrutura do banco e os ecopontos iniciais.
 
-Execute o arquivo:
+## Como executar o projeto completo localmente
 
-```text
-database/schema.sql
-```
+É necessário ter Node.js e MySQL instalados.
 
-O banco utilizado pelo projeto é `ecomaps`.
-
-## Configuração
-
-Crie um arquivo `.env` com base no `.env.example` e configure os dados do MySQL e a chave JWT.
-
-Exemplo:
-
-```env
-PORT=3005
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=ecomaps
-JWT_SECRET=coloque_aqui_uma_chave_com_mais_de_32_caracteres
-JWT_EXPIRES_IN=7d
-```
-
-## Executar o projeto
+1. Crie o banco importando `database/schema.sql` no MySQL.
+2. Copie `.env.example` para um arquivo chamado `.env`.
+3. No `.env`, configure os dados de conexão com o MySQL e substitua `JWT_SECRET` por uma chave longa e aleatória.
+4. Na pasta do projeto, execute:
 
 ```bash
 npm install
 npm start
 ```
 
-Depois acesse:
+Acesse `http://localhost:3005`. Nesse endereço, o Express disponibiliza tanto as páginas quanto as rotas da API.
 
-```text
-http://localhost:3005
+## Prévia do front com Docker
+
+Com o Docker em execução, use:
+
+```bash
+docker compose up -d
 ```
 
-## Principais rotas da API
+Acesse `http://localhost:8080`.
 
-| Método | Rota | Função |
-|---|---|---|
-| POST | `/api/usuarios/cadastro` | Cadastrar usuário |
-| POST | `/api/usuarios/login` | Fazer login |
-| GET | `/api/usuarios/me` | Consultar perfil |
-| PUT | `/api/usuarios/me` | Atualizar perfil |
-| PUT | `/api/usuarios/me/senha` | Alterar senha |
-| DELETE | `/api/usuarios/me` | Excluir conta |
-| GET | `/api/ecopontos` | Listar ecopontos ativos |
-| GET | `/api/admin/ecopontos` | Listar ecopontos na área administrativa |
-| POST | `/api/admin/ecopontos` | Cadastrar ecoponto |
-| PUT | `/api/admin/ecopontos/:id` | Editar ecoponto |
-| DELETE | `/api/admin/ecopontos/:id` | Remover ecoponto |
-| GET | `/api/health` | Testar API e banco |
+O `docker-compose.yml` atual configura o Nginx para exibir os arquivos da pasta `docs/`. Essa prévia mostra a interface, mas as funções que consultam a API, como login e busca de ecopontos, precisam que o servidor Node.js e o MySQL também estejam configurados e acessíveis.
+
+## Estrutura do projeto
+
+```text
+EcoMaps/
+├── database/          # Estrutura e dados iniciais do MySQL
+├── docs/              # Páginas, estilos, scripts e imagens
+├── server/            # Configuração, autenticação e rotas da API
+├── .env.example       # Modelo das variáveis de ambiente
+├── docker-compose.yml # Prévia do front com Nginx
+├── package.json       # Dependências e comandos do Node.js
+└── server.js          # Inicialização do servidor
+```
+
+## API
+
+Entre as rotas disponíveis estão:
+
+- `GET /api/ecopontos` — lista os ecopontos ativos.
+- `POST /api/usuarios/cadastro` — cadastra um usuário.
+- `POST /api/usuarios/login` — autentica um usuário.
+- `GET /api/usuarios/me` — consulta o perfil autenticado.
+- `/api/admin/ecopontos` — permite ao administrador gerenciar ecopontos.
+- `GET /api/health` — verifica a conexão da API com o banco.
