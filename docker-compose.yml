@@ -4,3 +4,6 @@ services:
     container_name: ecomaps-nginx
     ports:
       - "8080:80"
+
+    volumes:
+      - ./docs:/usr/share/nginx/html:ro
