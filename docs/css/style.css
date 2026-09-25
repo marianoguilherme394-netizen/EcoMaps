@@ -183,6 +183,12 @@ button {
     background: rgba(255, 255, 255, .23);
     right: -100px;
     bottom: -190px;
+    pointer-events: none;
+}
+
+.hero > * {
+    position: relative;
+    z-index: 1;
 }
 
 .eyebrow {

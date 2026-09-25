@@ -77,7 +77,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 4.3,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Astarte+500+Sao+Paulo',
-'/assets/ecopontos/astarte.png',
+'/assets/ecopontos/astarte.jpeg',
 TRUE
 ),
 
@@ -101,7 +101,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 4.6,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Professor+Alzira+de+Oliveira+Gilioli+400+Sao+Paulo',
-'/assets/ecopontos/aricanduva.png',
+'/assets/ecopontos/aricanduva.jpeg',
 TRUE
 ),
 
@@ -113,7 +113,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 4.2,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Caminho+do+Engenho+800+Sao+Paulo',
-'/assets/ecopontos/jardim-maria-carmo.png',
+'/assets/ecopontos/jardim-maria-carmo.jpeg',
 TRUE
 ),
 
@@ -125,7 +125,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 4.6,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Walter+Brito+Belletti+Sao+Paulo',
-'/assets/ecopontos/jardim-jaqueline.png',
+'/assets/ecopontos/jardim-jaqueline.jpeg',
 TRUE
 ),
 
@@ -137,7 +137,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Paulino+Baptista+Conti+2+Sao+Paulo',
-'/assets/ecopontos/politecnica.png',
+'/assets/ecopontos/politecnica.jpeg',
 TRUE
 ),
 
@@ -149,7 +149,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Avenida+Giovani+Gronchi+3413+Sao+Paulo',
-'/assets/ecopontos/giovani-gronchi.png',
+'/assets/ecopontos/giovani-gronchi.jpeg',
 TRUE
 ),
 
@@ -161,7 +161,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Travessa+Rosifloras+301+Sao+Paulo',
-'/assets/ecopontos/santo-dias.png',
+'/assets/ecopontos/santo-dias.jpeg',
 TRUE
 ),
 
@@ -173,7 +173,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Avenida+Doutor+Salvador+Rocco+261+Sao+Paulo',
-'/assets/ecopontos/parque-fernanda.png',
+'/assets/ecopontos/parque-fernanda.jpeg',
 TRUE
 ),
 
@@ -185,7 +185,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Campo+Novo+do+Sul+500+Sao+Paulo',
-'/assets/ecopontos/vila-das-belezas.png',
+'/assets/ecopontos/vila-das-belezas.jpeg',
 TRUE
 ),
 
@@ -197,7 +197,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Tereza+Cristina+10+Sao+Paulo',
-'/assets/ecopontos/tereza-cristina.png',
+'/assets/ecopontos/tereza-cristina.jpeg',
 TRUE
 ),
 
@@ -209,7 +209,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Santa+Cruz+1452+Sao+Paulo',
-'/assets/ecopontos/santa-cruz.png',
+'/assets/ecopontos/santa-cruz.jpeg',
 TRUE
 ),
 
@@ -221,7 +221,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Praca+do+Cancioneiro+15+Sao+Paulo',
-'/assets/ecopontos/berrini.png',
+'/assets/ecopontos/berrini.jpeg',
 TRUE
 ),
 
@@ -233,7 +233,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Girassol+15+Vila+Madalena+Sao+Paulo',
-'/assets/ecopontos/vila-madalena.png',
+'/assets/ecopontos/vila-madalena.jpeg',
 TRUE
 ),
 
@@ -245,7 +245,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Praca+Ministro+Francisco+Sa+Carneiro+6+Sao+Paulo',
-'/assets/ecopontos/glicerio.png',
+'/assets/ecopontos/glicerio.jpeg',
 TRUE
 ),
 
@@ -257,7 +257,7 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão'),
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Jaceguai+67+Sao+Paulo',
-'/assets/ecopontos/liberdade.png',
+'/assets/ecopontos/liberdade.jpeg',
 TRUE
 ),
 
@@ -269,6 +269,6 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 0.0,
 'Segunda a sábado: 6h às 22h; domingos e feriados: 6h às 18h',
 'https://www.google.com/maps/search/?api=1&query=Rua+Mauricio+Francisco+Klabin+37+Sao+Paulo',
-'/assets/ecopontos/vila-mariana.png',
+'/assets/ecopontos/vila-mariana.jpeg',
 TRUE
 );
