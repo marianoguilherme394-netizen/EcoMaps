@@ -1,9 +1,73 @@
 services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: ecomaps-mysql
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecomaps
+
+    volumes:
+      - ecomaps_mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  api:
+    image: node:20-alpine
+    container_name: ecomaps-api
+    restart: unless-stopped
+
+    working_dir: /app
+
+    volumes:
+      - ./:/app
+      - /app/node_modules
+
+    command: sh -c "npm install && npm start"
+
+    environment:
+      PORT: 3005
+
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: ecomaps
+
+      JWT_SECRET: ecomaps_chave_jwt_super_secreta_2026
+      JWT_EXPIRES_IN: 7d
+
+    expose:
+      - "3005"
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+
   nginx:
     image: nginx:alpine
     container_name: ecomaps-nginx
+    restart: unless-stopped
+
     ports:
       - "80:80"
 
     volumes:
       - ./docs:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+    depends_on:
+      - api
+
+
+volumes:
+  ecomaps_mysql_data:
