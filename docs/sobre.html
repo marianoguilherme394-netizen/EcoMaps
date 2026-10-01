@@ -2,99 +2,208 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#145c31">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="icon" href="assets/logo-reciclagem.png">
+    <meta
+        name="theme-color"
+        content="#145c31"
+    >
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="icon"
+        href="assets/logo-reciclagem.png"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
     >
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 
-    <title>Sobre | EcoMaps</title>
+    <title>
+        Sobre | EcoMaps
+    </title>
+
 </head>
+
 
 <body>
 
     <div class="app-shell">
 
-        <!-- Cabeçalho -->
+
         <header class="site-header">
 
-            <a class="brand" href="index.html">
-                <img src="assets/logo.png" alt="EcoMaps">
+            <a
+                class="brand"
+                href="index.html"
+            >
+                <img
+                    src="assets/logo.png"
+                    alt="EcoMaps"
+                >
             </a>
 
-            <!-- Menu para desktop -->
+
             <nav class="desktop-nav">
-                <a class="nav-link" href="index.html">Início</a>
-                <a class="nav-link" href="descarte.html">Encontrar ponto</a>
-                <a class="nav-link active" href="sobre.html">Sobre</a>
-                <a class="nav-link" href="perfil.html">Minha conta</a>
-                
+
+                <a class="nav-link" href="index.html">
+                    Início
+                </a>
+
+                <a class="nav-link" href="descarte.html">
+                    Encontrar ponto
+                </a>
+
+                <a class="nav-link" href="sobre.html">
+                    Sobre
+                </a>
+
+                <a class="nav-link active" href="login.html">
+                    Minha conta
+                </a>
+
+                <a
+                    href="admin.html"
+                    id="link-admin"
+                    style="display: none;"
+                >
+                    🛠️ <span>Area ADM</span>
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="chat.html"
+                    id="link-chat"
+                    style="display: none;"
+                >
+                    Chat
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="admin-chat.html"
+                    id="link-admin-chat"
+                    style="display: none;"
+                >
+                    Chat ADM
+                </a>
+
             </nav>
 
-            <!-- Botão do menu mobile -->
-            <button class="menu-btn" onclick="abrirMenu()">
+
+            <button
+                class="menu-btn"
+                onclick="abrirMenu()"
+            >
                 ☰
             </button>
 
         </header>
 
-        <!-- Fundo escuro do menu mobile -->
-        <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
 
-        <!-- Menu lateral -->
-        <aside class="sidebar" id="sidebar">
+        <div
+            class="overlay"
+            id="overlay"
+            onclick="fecharMenu()"
+        ></div>
+
+
+        <aside
+            class="sidebar"
+            id="sidebar"
+        >
 
             <div class="sidebar-head">
-                <strong>EcoMaps</strong>
 
-                <button class="fechar" onclick="fecharMenu()">
+                <strong>
+                    EcoMaps
+                </strong>
+
+                <button
+                    class="fechar"
+                    onclick="fecharMenu()"
+                >
                     ✕
                 </button>
+
             </div>
 
+
             <nav>
+
                 <a href="index.html">
-                    🏠
-                    <span>Início</span>
+                    🏠 <span>Início</span>
                 </a>
 
-                <a href="descarte.html">
-                    📍
-                    <span>Encontrar ponto</span>
+                <a
+                    class="ativo"
+                    href="descarte.html"
+                >
+                    📍 <span>Encontrar ponto</span>
                 </a>
 
-                <a class="ativo" href="sobre.html">
-                    🌱
-                    <span>Sobre o projeto</span>
+                <a href="sobre.html">
+                    🌱 <span>Sobre o projeto</span>
                 </a>
 
                 <a href="perfil.html">
-                    👤
-                    <span>Minha conta</span>
+                    👤 <span>Minha conta</span>
                 </a>
 
-                
-                <a href="admin.html" id="link-admin" style="display: none;">🛠️ <span>Area ADM</span></a>
+                <a
+                    href="admin.html"
+                    id="link-admin-mobile"
+                    style="display: none;"
+                >
+                    🛠️ <span>Area ADM</span>
+                </a>
+
+                <a
+                    href="chat.html"
+                    id="link-chat-mobile"
+                    style="display: none;"
+                >
+                    💬 <span>Chat</span>
+                </a>
+
+                <a
+                    href="admin-chat.html"
+                    id="link-admin-chat-mobile"
+                    style="display: none;"
+                >
+                    💬 <span>Chat ADM</span>
+                </a>
+
             </nav>
 
         </aside>
 
-        <!-- Conteúdo principal -->
+
         <main class="about-page">
 
-            <!-- Seção inicial -->
+
             <section class="about-hero">
 
                 <span class="eyebrow">
@@ -114,12 +223,14 @@
 
             </section>
 
-            <!-- Cards -->
+
             <section class="about-grid">
 
                 <article class="about-card featured">
 
-                    <span>♻️</span>
+                    <span>
+                        ♻️
+                    </span>
 
                     <h2>
                         Nossa missão
@@ -132,9 +243,12 @@
 
                 </article>
 
+
                 <article class="about-card">
 
-                    <span>🌱</span>
+                    <span>
+                        🌱
+                    </span>
 
                     <h2>
                         Sustentabilidade
@@ -147,9 +261,12 @@
 
                 </article>
 
+
                 <article class="about-card">
 
-                    <span>📍</span>
+                    <span>
+                        📍
+                    </span>
 
                     <h2>
                         Conexão local
@@ -162,9 +279,12 @@
 
                 </article>
 
+
                 <article class="about-card">
 
-                    <span>💚</span>
+                    <span>
+                        💚
+                    </span>
 
                     <h2>
                         Impacto
@@ -179,7 +299,7 @@
 
             </section>
 
-            <!-- Banner -->
+
             <section class="about-banner">
 
                 <div>
@@ -199,7 +319,11 @@
 
                 </div>
 
-                <a class="btn btn-light" href="descarte.html">
+
+                <a
+                    class="btn btn-light"
+                    href="descarte.html"
+                >
                     Encontrar um ponto →
                 </a>
 
@@ -207,7 +331,7 @@
 
         </main>
 
-        <!-- Rodapé -->
+
         <footer class="footer">
 
             <strong>
@@ -222,7 +346,7 @@
 
     </div>
 
-    <!-- JavaScript -->
+
     <script src="js/menu.js"></script>
 
 </body>

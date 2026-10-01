@@ -15,6 +15,11 @@
         content="#145c31"
     >
 
+    <meta
+        name="description"
+        content="Converse com a equipe do EcoMaps."
+    >
+
     <link
         rel="icon"
         href="assets/logo-reciclagem.png"
@@ -42,7 +47,7 @@
     >
 
     <title>
-        Cadastro | EcoMaps
+        Chat | EcoMaps
     </title>
 
 </head>
@@ -50,10 +55,10 @@
 
 <body>
 
-    <div class="app-shell-login">
+    <div class="app-shell">
 
 
-        <header class="site-header-login">
+        <header class="site-header">
 
             <a
                 class="brand"
@@ -150,6 +155,7 @@
 
                 <button
                     class="fechar"
+                    type="button"
                     onclick="fecharMenu()"
                     aria-label="Fechar menu"
                 >
@@ -209,157 +215,134 @@
         </aside>
 
 
-        <div class="auth-page">
+        <main class="chat-page">
 
 
-            <div class="auth-visual signup">
+            <section class="chat-header">
 
                 <div>
 
                     <span class="eyebrow">
-                        Faça parte
+                        💬 Atendimento EcoMaps
                     </span>
 
                     <h1>
-                        Uma conta simples para uma experiência melhor.
+                        Fale com nossa equipe
                     </h1>
 
                     <p>
-                        Salve seus dados e acompanhe sua experiência no EcoMaps.
+                        Tire suas dúvidas ou entre em contato com
+                        um administrador do EcoMaps.
                     </p>
 
                 </div>
 
-
-                <span class="auth-quote">
-                    ♻️ Pequenas ações, grande impacto.
-                </span>
-
-            </div>
+            </section>
 
 
-            <main class="auth-box">
+            <section class="chat-container">
 
-                <h1>
-                    Criar conta
-                </h1>
 
-                <p class="auth-subtitle">
-                    Leva menos de um minuto.
-                </p>
+                <div class="chat-box-header">
+
+                    <div class="chat-avatar">
+                        🌱
+                    </div>
+
+
+                    <div class="chat-user-info">
+
+                        <strong>
+                            Suporte EcoMaps
+                        </strong>
+
+                        <span id="status-chat">
+                            Atendimento
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="chat-messages"
+                    id="chat-messages"
+                    aria-live="polite"
+                >
+
+                    <div
+                        class="chat-loading"
+                        id="chat-loading"
+                    >
+                        Carregando conversa...
+                    </div>
+
+                </div>
 
 
                 <form
-                    id="form-cadastro"
-                    class="form auth-form"
-                    novalidate
+                    class="chat-form"
+                    id="chat-form"
                 >
 
+                    <div class="chat-input-wrapper">
 
-                    <label for="cadastro-nome">
-                        Nome completo
-                    </label>
-
-                    <input
-                        id="cadastro-nome"
-                        class="input"
-                        name="nome"
-                        type="text"
-                        placeholder="Seu nome completo"
-                        minlength="3"
-                        maxlength="120"
-                        autocomplete="name"
-                        required
-                    >
+                        <textarea
+                            id="chat-input"
+                            name="mensagem"
+                            maxlength="2000"
+                            rows="1"
+                            placeholder="Digite sua mensagem..."
+                            aria-label="Digite sua mensagem"
+                            required
+                        ></textarea>
 
 
-                    <label for="cadastro-email">
-                        E-mail
-                    </label>
+                        <button
+                            type="submit"
+                            class="chat-send-button"
+                            id="chat-send-button"
+                            aria-label="Enviar mensagem"
+                        >
+                            Enviar
+                            <span>➤</span>
+                        </button>
 
-                    <input
-                        id="cadastro-email"
-                        class="input"
-                        name="email"
-                        type="email"
-                        placeholder="seuemail@exemplo.com"
-                        maxlength="190"
-                        autocomplete="email"
-                        required
-                    >
+                    </div>
 
 
-                    <label for="cadastro-senha">
-                        Senha
-                    </label>
+                    <div class="chat-form-footer">
 
-                    <input
-                        id="cadastro-senha"
-                        class="input"
-                        name="senha"
-                        type="password"
-                        placeholder="Crie uma senha"
-                        minlength="6"
-                        maxlength="72"
-                        autocomplete="new-password"
-                        required
-                    >
+                        <span>
+                            Converse diretamente com a equipe EcoMaps.
+                        </span>
 
+                        <span id="contador-caracteres">
+                            0 / 2000
+                        </span>
 
-                    <label for="cadastro-confirmar-senha">
-                        Confirmar senha
-                    </label>
-
-                    <input
-                        id="cadastro-confirmar-senha"
-                        class="input"
-                        type="password"
-                        placeholder="Digite a senha novamente"
-                        minlength="6"
-                        maxlength="72"
-                        autocomplete="new-password"
-                        required
-                    >
-
-
-                    <p
-                        id="mensagem-cadastro"
-                        class="mensagem-form"
-                        role="alert"
-                        hidden
-                    ></p>
-
-
-                    <button
-                        class="btn btn-principal"
-                        type="submit"
-                    >
-                        Criar minha conta
-                    </button>
+                    </div>
 
                 </form>
 
+            </section>
 
-                <p class="cadastro-link">
 
-                    Já possui conta?
+            <div
+                id="chat-alert"
+                class="chat-alert"
+                style="display: none;"
+                role="alert"
+            ></div>
 
-                    <a href="login.html">
-                        Fazer login
-                    </a>
-
-                </p>
-
-            </main>
-
-        </div>
+        </main>
 
     </div>
 
 
-    <script src="js/api.js"></script>
-    <script src="js/cadastro.js"></script>
     <script src="js/menu.js"></script>
+    <script src="js/chat.js"></script>
 
 </body>
 

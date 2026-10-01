@@ -272,3 +272,58 @@ JSON_ARRAY('Plásticos', 'Vidros', 'Móveis', 'Metais', 'Entulho', 'Papelão', '
 '/assets/ecopontos/vila-mariana.jpeg',
 TRUE
 );
+
+
+-- =========================================================
+-- CHAT ENTRE USUÁRIOS E ADMINISTRADORES
+-- =========================================================
+
+CREATE TABLE IF NOT EXISTS conversas (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    usuario_id INT UNSIGNED NOT NULL,
+
+    status ENUM('aberta', 'fechada') NOT NULL DEFAULT 'aberta',
+
+    criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    atualizado_em TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_conversas_usuario
+        FOREIGN KEY (usuario_id)
+        REFERENCES usuarios(id)
+        ON DELETE CASCADE
+
+) ENGINE=InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS mensagens (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    conversa_id INT UNSIGNED NOT NULL,
+
+    remetente_id INT UNSIGNED NOT NULL,
+
+    mensagem TEXT NOT NULL,
+
+    lida BOOLEAN NOT NULL DEFAULT FALSE,
+
+    criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_mensagens_conversa
+        FOREIGN KEY (conversa_id)
+        REFERENCES conversas(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_mensagens_remetente
+        FOREIGN KEY (remetente_id)
+        REFERENCES usuarios(id)
+        ON DELETE CASCADE
+
+) ENGINE=InnoDB;

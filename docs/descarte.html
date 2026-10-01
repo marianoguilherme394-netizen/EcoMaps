@@ -1,35 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mapa de descarte | EcoMaps</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <title>
+        Mapa de descarte | EcoMaps
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
 </head>
+
 
 <body>
 
 <div class="app-shell">
 
+
   <header class="site-header">
 
-    <a class="brand" href="index.html" aria-label="EcoMaps - início">
-      <img src="assets/logo.png" alt="EcoMaps">
+    <a
+        class="brand"
+        href="index.html"
+        aria-label="EcoMaps - início"
+    >
+      <img
+        src="assets/logo.png"
+        alt="EcoMaps"
+      >
     </a>
 
-    <nav class="desktop-nav" aria-label="Navegação principal">
-      <a class="nav-link" href="index.html">Início</a>
 
-      <a class="nav-link active" href="descarte.html">
-        Encontrar ponto
-      </a>
+    <nav
+        class="desktop-nav"
+        aria-label="Navegação principal"
+    >
 
-      <a class="nav-link" href="sobre.html">Sobre</a>
+        <a class="nav-link" href="index.html">
+            Início
+        </a>
 
-      <a class="nav-link" href="perfil.html">Minha conta</a>
+        <a class="nav-link" href="descarte.html">
+            Encontrar ponto
+        </a>
+
+        <a class="nav-link" href="sobre.html">
+            Sobre
+        </a>
+
+        <a class="nav-link active" href="login.html">
+            Minha conta
+        </a>
+
+        <a
+            href="admin.html"
+            id="link-admin"
+            style="display: none;"
+        >
+            🛠️ <span>Area ADM</span>
+        </a>
+
+        <a
+            class="nav-link"
+            href="chat.html"
+            id="link-chat"
+            style="display: none;"
+        >
+            Chat
+        </a>
+
+        <a
+            class="nav-link"
+            href="admin-chat.html"
+            id="link-admin-chat"
+            style="display: none;"
+        >
+            Chat ADM
+        </a>
+
     </nav>
+
 
     <button
       class="menu-btn"
@@ -51,6 +111,7 @@
     onclick="fecharMenu()"
   ></div>
 
+
   <aside
     class="sidebar"
     id="sidebar"
@@ -59,7 +120,9 @@
 
     <div class="sidebar-head">
 
-      <strong>EcoMaps</strong>
+      <strong>
+        EcoMaps
+      </strong>
 
       <button
         class="fechar"
@@ -71,13 +134,17 @@
 
     </div>
 
+
     <nav>
 
       <a href="index.html">
         🏠 <span>Início</span>
       </a>
 
-      <a class="ativo" href="descarte.html">
+      <a
+        class="ativo"
+        href="descarte.html"
+      >
         📍 <span>Encontrar ponto</span>
       </a>
 
@@ -89,23 +156,51 @@
         👤 <span>Minha conta</span>
       </a>
 
-      <a href="admin.html" id="link-admin" style="display: none;">🛠️ <span>Area ADM</span></a>
+      <a
+        href="admin.html"
+        id="link-admin-mobile"
+        style="display: none;"
+      >
+        🛠️ <span>Area ADM</span>
+      </a>
+
+      <a
+        href="chat.html"
+        id="link-chat-mobile"
+        style="display: none;"
+      >
+        💬 <span>Chat</span>
+      </a>
+
+      <a
+        href="admin-chat.html"
+        id="link-admin-chat-mobile"
+        style="display: none;"
+      >
+        💬 <span>Chat ADM</span>
+      </a>
 
     </nav>
 
   </aside>
 
+
     <!-- CONTEÚDO -->
+
     <main class="descarte-page">
 
         <h1>
             Encontre um ponto perto de você
         </h1>
 
+
         <!-- PESQUISA -->
+
         <div class="search-box">
 
-            <span class="search-icon">⌕</span>
+            <span class="search-icon">
+                ⌕
+            </span>
 
             <input
                 type="text"
@@ -119,33 +214,54 @@
 
         </div>
 
+
         <!-- FILTROS -->
+
         <div class="filtros">
 
-            <button class="filtro ativo" id="filtro-todos" type="button">
+            <button
+                class="filtro ativo"
+                id="filtro-todos"
+                type="button"
+            >
                 Todos
             </button>
 
-            <button class="filtro" id="filtro-abertos" type="button">
+            <button
+                class="filtro"
+                id="filtro-abertos"
+                type="button"
+            >
                 Abertos
             </button>
 
         </div>
 
-        <p class="contador" id="contador-pontos">
-    Carregando ecopontos...
-</p>
+
+        <p
+            class="contador"
+            id="contador-pontos"
+        >
+            Carregando ecopontos...
+        </p>
+
 
         <!-- PONTOS -->
-        <section class="lista-pontos" id="lista-pontos">
+
+        <section
+            class="lista-pontos"
+            id="lista-pontos"
+        >
         </section>
 
     </main>
 
 </div>
-</div>
+
 
 <script src="js/menu.js"></script>
 <script src="js/descarte.js"></script>
+
 </body>
-</html> 
+
+</html>

@@ -2310,3 +2310,1130 @@ button {
         width: 100%;
     }
 }
+
+/* =========================================================
+   CHAT - PÁGINA
+========================================================= */
+
+.chat-page {
+    width: min(1100px, calc(100% - 32px));
+    margin: 40px auto 60px;
+}
+
+
+/* =========================================================
+   CABEÇALHO DA PÁGINA
+========================================================= */
+
+.chat-header {
+    margin-bottom: 24px;
+}
+
+.chat-header .eyebrow {
+    display: inline-block;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    color: #2f7d4a;
+
+    margin-bottom: 8px;
+}
+
+.chat-header h1 {
+    margin: 0 0 10px;
+
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
+
+    color: #173d27;
+}
+
+.chat-header p {
+    margin: 0;
+
+    max-width: 650px;
+
+    color: #64748b;
+
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CONTAINER PRINCIPAL
+========================================================= */
+
+.chat-container {
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.08);
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 620px;
+}
+
+
+/* =========================================================
+   CABEÇALHO INTERNO
+========================================================= */
+
+.chat-box-header {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 18px 22px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    background: #f8fafc;
+}
+
+.chat-avatar {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e8f5ec;
+
+    font-size: 23px;
+
+    flex-shrink: 0;
+}
+
+.chat-user-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.chat-user-info strong {
+    color: #1e293b;
+
+    font-size: 15px;
+}
+
+.chat-user-info span {
+    color: #16a34a;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   MENSAGENS
+========================================================= */
+
+.chat-messages {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 24px;
+
+    min-height: 400px;
+    max-height: 520px;
+
+    overflow-y: auto;
+
+    background: #f8fafc;
+}
+
+
+/* Scroll */
+
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+
+    border-radius: 20px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+/* =========================================================
+   MENSAGEM
+========================================================= */
+
+.mensagem {
+    display: flex;
+    flex-direction: column;
+
+    max-width: 72%;
+
+    animation: mensagemAparecer 0.18s ease;
+}
+
+@keyframes mensagemAparecer {
+
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Usuário */
+
+.mensagem-usuario {
+    align-self: flex-end;
+
+    align-items: flex-end;
+}
+
+.mensagem-usuario .mensagem-conteudo {
+    background: #176b3a;
+
+    color: #ffffff;
+
+    border-radius:
+        16px
+        16px
+        4px
+        16px;
+}
+
+
+/* Administrador */
+
+.mensagem-admin {
+    align-self: flex-start;
+
+    align-items: flex-start;
+}
+
+.mensagem-admin .mensagem-conteudo {
+    background: #ffffff;
+
+    color: #334155;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius:
+        16px
+        16px
+        16px
+        4px;
+}
+
+
+/* Conteúdo */
+
+.mensagem-conteudo {
+    padding: 11px 15px;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    word-break: break-word;
+
+    white-space: pre-wrap;
+}
+
+
+/* Horário */
+
+.mensagem-hora {
+    display: block;
+
+    margin-top: 4px;
+
+    padding: 0 4px;
+
+    font-size: 11px;
+
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   CHAT VAZIO
+========================================================= */
+
+.chat-vazio {
+    margin: auto;
+
+    max-width: 420px;
+
+    text-align: center;
+
+    color: #64748b;
+}
+
+.chat-vazio p {
+    margin: 0 0 6px;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    color: #334155;
+}
+
+.chat-vazio span {
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   CARREGAMENTO
+========================================================= */
+
+.chat-loading {
+    margin: auto;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   FORMULÁRIO
+========================================================= */
+
+.chat-form {
+    padding: 16px 20px;
+
+    background: #ffffff;
+
+    border-top: 1px solid #e2e8f0;
+}
+
+.chat-input-wrapper {
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 10px;
+}
+
+#chat-input {
+    flex: 1;
+
+    min-height: 46px;
+    max-height: 130px;
+
+    padding: 12px 15px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+
+    outline: none;
+
+    resize: vertical;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#chat-input:focus {
+    border-color: #27874b;
+
+    box-shadow:
+        0 0 0 3px rgba(39, 135, 75, 0.12);
+}
+
+
+/* Botão enviar */
+
+.chat-send-button {
+    min-height: 46px;
+
+    padding: 0 18px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: #176b3a;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.2s ease;
+}
+
+.chat-send-button:hover {
+    background: #145c31;
+
+    transform: translateY(-1px);
+}
+
+.chat-send-button:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   RODAPÉ DO FORMULÁRIO
+========================================================= */
+
+.chat-form-footer {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    margin-top: 8px;
+
+    font-size: 11px;
+
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   ALERTAS
+========================================================= */
+
+.chat-alert {
+    margin-top: 16px;
+
+    padding: 12px 16px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.chat-alert.erro {
+    background: #fee2e2;
+
+    color: #991b1b;
+
+    border: 1px solid #fecaca;
+}
+
+.chat-alert.sucesso {
+    background: #dcfce7;
+
+    color: #166534;
+
+    border: 1px solid #bbf7d0;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .chat-page {
+        width: min(100% - 20px, 1100px);
+
+        margin-top: 24px;
+    }
+
+    .chat-container {
+        min-height: 550px;
+
+        border-radius: 16px;
+    }
+
+    .chat-messages {
+        padding: 18px;
+
+        min-height: 360px;
+        max-height: 450px;
+    }
+
+    .mensagem {
+        max-width: 86%;
+    }
+
+    .chat-input-wrapper {
+        align-items: stretch;
+    }
+
+    .chat-send-button {
+        padding: 0 14px;
+    }
+
+    .chat-form-footer {
+        flex-direction: column;
+
+        gap: 4px;
+    }
+
+}
+
+/* =========================================================
+   ADMIN CHAT
+========================================================= */
+
+.admin-chat-page {
+    width: min(1200px, calc(100% - 32px));
+    margin: 40px auto 60px;
+}
+
+.admin-chat-header {
+    margin-bottom: 24px;
+}
+
+.admin-chat-header .eyebrow {
+    display: inline-block;
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    color: #2f7d4a;
+}
+
+.admin-chat-header h1 {
+    margin: 0 0 10px;
+
+    font-size: clamp(28px, 4vw, 42px);
+
+    color: #173d27;
+}
+
+.admin-chat-header p {
+    margin: 0;
+
+    max-width: 700px;
+
+    color: #64748b;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CONTAINER PRINCIPAL
+========================================================= */
+
+.admin-chat-container {
+    display: grid;
+    grid-template-columns: 330px 1fr;
+
+    min-height: 650px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+
+/* =========================================================
+   LISTA DE CONVERSAS
+========================================================= */
+
+.admin-chat-lista {
+    display: flex;
+    flex-direction: column;
+
+    border-right: 1px solid #e2e8f0;
+
+    background: #f8fafc;
+}
+
+.admin-chat-lista-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-chat-lista-header div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.admin-chat-lista-header strong {
+    color: #1e293b;
+
+    font-size: 16px;
+}
+
+.admin-chat-lista-header span {
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+.admin-chat-refresh {
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+    transition: background 0.2s ease;
+}
+
+.admin-chat-refresh:hover {
+    background: #f1f5f9;
+}
+
+
+/* =========================================================
+   BUSCA
+========================================================= */
+
+.admin-chat-busca {
+    padding: 12px 14px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-chat-busca input {
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+
+    font-family: inherit;
+
+    outline: none;
+}
+
+.admin-chat-busca input:focus {
+    border-color: #27874b;
+
+    box-shadow:
+        0 0 0 3px rgba(39, 135, 75, 0.12);
+}
+
+
+/* =========================================================
+   ITENS DE CONVERSA
+========================================================= */
+
+.admin-chat-conversas {
+    flex: 1;
+
+    overflow-y: auto;
+}
+
+.admin-chat-item {
+    width: 100%;
+
+    padding: 15px 16px;
+
+    text-align: left;
+
+    border: none;
+    border-bottom: 1px solid #e2e8f0;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.admin-chat-item:hover {
+    background: #eef6f0;
+}
+
+.admin-chat-item.ativo {
+    background: #e2f3e7;
+
+    border-left: 4px solid #176b3a;
+}
+
+.admin-chat-item-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 4px;
+}
+
+.admin-chat-item-topo strong {
+    color: #1e293b;
+
+    font-size: 14px;
+}
+
+.admin-chat-badge {
+    min-width: 22px;
+    height: 22px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 6px;
+
+    border-radius: 999px;
+
+    background: #176b3a;
+
+    color: white;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.admin-chat-item-email {
+    margin-bottom: 7px;
+
+    font-size: 12px;
+
+    color: #64748b;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-chat-item-preview {
+    margin-bottom: 8px;
+
+    font-size: 13px;
+
+    color: #475569;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-chat-item-rodape {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    font-size: 11px;
+
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   CONVERSA PRINCIPAL
+========================================================= */
+
+.admin-chat-principal {
+    min-width: 0;
+
+    display: flex;
+}
+
+.admin-chat-sem-conversa {
+    margin: auto;
+
+    max-width: 420px;
+
+    padding: 30px;
+
+    text-align: center;
+}
+
+.admin-chat-sem-conversa-icon {
+    margin-bottom: 10px;
+
+    font-size: 42px;
+}
+
+.admin-chat-sem-conversa h2 {
+    margin: 0 0 8px;
+
+    color: #1e293b;
+}
+
+.admin-chat-sem-conversa p {
+    margin: 0;
+
+    color: #64748b;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   CONVERSA ABERTA
+========================================================= */
+
+.admin-chat-conversa {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-chat-conversa-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding: 17px 20px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    background: #ffffff;
+}
+
+.admin-chat-usuario {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+.admin-chat-avatar {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e8f5ec;
+}
+
+.admin-chat-usuario > div:last-child {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.admin-chat-usuario strong {
+    color: #1e293b;
+}
+
+.admin-chat-usuario span {
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   AÇÕES
+========================================================= */
+
+.admin-chat-acoes {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.admin-chat-status {
+    padding: 6px 10px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.admin-chat-status.aberta {
+    background: #dcfce7;
+
+    color: #166534;
+}
+
+.admin-chat-status.fechada {
+    background: #e2e8f0;
+
+    color: #475569;
+}
+
+.admin-chat-fechar {
+    padding: 8px 12px;
+
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+
+    background: #fff1f2;
+
+    color: #b91c1c;
+
+    font-family: inherit;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.admin-chat-fechar:hover {
+    background: #ffe4e6;
+}
+
+
+/* =========================================================
+   MENSAGENS
+========================================================= */
+
+.admin-chat-mensagens {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 22px;
+
+    min-height: 430px;
+    max-height: 520px;
+
+    overflow-y: auto;
+
+    background: #f8fafc;
+}
+
+.mensagem-remetente {
+    margin-bottom: 3px;
+
+    padding: 0 4px;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   FORMULÁRIO ADMIN
+========================================================= */
+
+.admin-chat-form {
+    padding: 15px 18px;
+
+    border-top: 1px solid #e2e8f0;
+
+    background: #ffffff;
+}
+
+.admin-chat-input-wrapper {
+    display: flex;
+
+    gap: 10px;
+
+    align-items: flex-end;
+}
+
+#admin-chat-input {
+    flex: 1;
+
+    min-height: 46px;
+    max-height: 130px;
+
+    padding: 12px 14px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+
+    resize: vertical;
+
+    font-family: inherit;
+
+    outline: none;
+}
+
+#admin-chat-input:focus {
+    border-color: #27874b;
+
+    box-shadow:
+        0 0 0 3px rgba(39, 135, 75, 0.12);
+}
+
+.admin-chat-enviar {
+    min-height: 46px;
+
+    padding: 0 18px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #176b3a;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.admin-chat-enviar:hover {
+    background: #145c31;
+}
+
+.admin-chat-enviar:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+.admin-chat-form-footer {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 7px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.admin-chat-loading {
+    padding: 25px;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .admin-chat-container {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-chat-lista {
+        max-height: 320px;
+
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .admin-chat-principal {
+        min-height: 550px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .admin-chat-page {
+        width: calc(100% - 20px);
+
+        margin-top: 24px;
+    }
+
+    .admin-chat-conversa-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .admin-chat-acoes {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+    .admin-chat-mensagens {
+        padding: 16px;
+    }
+
+    .admin-chat-input-wrapper {
+        align-items: stretch;
+    }
+
+    .admin-chat-form-footer {
+        flex-direction: column;
+
+        gap: 4px;
+    }
+
+}

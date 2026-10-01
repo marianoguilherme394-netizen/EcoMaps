@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#145c31"
+    >
+
+    <meta
+        name="description"
+        content="Atendimento administrativo do EcoMaps."
+    >
+
+    <link
+        rel="icon"
+        href="assets/logo-reciclagem.png"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <title>
+        Chat ADM | EcoMaps
+    </title>
+
+</head>
+
+
+<body>
+
+    <div class="app-shell">
+
+
+        <header class="site-header">
+
+            <a
+                class="brand"
+                href="index.html"
+                aria-label="EcoMaps - início"
+            >
+                <img
+                    src="assets/logo.png"
+                    alt="EcoMaps"
+                >
+            </a>
+
+
+            <nav
+                class="desktop-nav"
+                aria-label="Navegação principal"
+            >
+
+                <a class="nav-link" href="index.html">
+                    Início
+                </a>
+
+                <a class="nav-link" href="descarte.html">
+                    Encontrar ponto
+                </a>
+
+                <a class="nav-link" href="sobre.html">
+                    Sobre
+                </a>
+
+                <a class="nav-link active" href="login.html">
+                    Minha conta
+                </a>
+
+                <a
+                    href="admin.html"
+                    id="link-admin"
+                    style="display: none;"
+                >
+                    🛠️ <span>Area ADM</span>
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="chat.html"
+                    id="link-chat"
+                    style="display: none;"
+                >
+                    Chat
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="admin-chat.html"
+                    id="link-admin-chat"
+                    style="display: none;"
+                >
+                    Chat ADM
+                </a>
+
+            </nav>
+
+
+            <button
+                class="menu-btn"
+                type="button"
+                onclick="abrirMenu()"
+                aria-label="Abrir menu"
+            >
+                ☰
+            </button>
+
+        </header>
+
+
+        <div
+            class="overlay"
+            id="overlay"
+            onclick="fecharMenu()"
+        ></div>
+
+
+        <aside
+            class="sidebar"
+            id="sidebar"
+            aria-label="Menu mobile"
+        >
+
+            <div class="sidebar-head">
+
+                <strong>
+                    EcoMaps
+                </strong>
+
+                <button
+                    class="fechar"
+                    type="button"
+                    onclick="fecharMenu()"
+                    aria-label="Fechar menu"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+
+            <nav>
+
+                <a href="index.html">
+                    🏠 <span>Início</span>
+                </a>
+
+                <a
+                    class="ativo"
+                    href="descarte.html"
+                >
+                    📍 <span>Encontrar ponto</span>
+                </a>
+
+                <a href="sobre.html">
+                    🌱 <span>Sobre o projeto</span>
+                </a>
+
+                <a href="perfil.html">
+                    👤 <span>Minha conta</span>
+                </a>
+
+                <a
+                    href="admin.html"
+                    id="link-admin-mobile"
+                    style="display: none;"
+                >
+                    🛠️ <span>Area ADM</span>
+                </a>
+
+                <a
+                    href="chat.html"
+                    id="link-chat-mobile"
+                    style="display: none;"
+                >
+                    💬 <span>Chat</span>
+                </a>
+
+                <a
+                    href="admin-chat.html"
+                    id="link-admin-chat-mobile"
+                    style="display: none;"
+                >
+                    💬 <span>Chat ADM</span>
+                </a>
+
+            </nav>
+
+        </aside>
+
+
+        <main class="admin-chat-page">
+
+
+            <section class="admin-chat-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        Atendimento administrativo
+                    </span>
+
+                    <h1>
+                        Conversas dos usuários
+                    </h1>
+
+                    <p>
+                        Visualize as mensagens enviadas pelos usuários
+                        e responda diretamente pelo EcoMaps.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section class="admin-chat-container">
+
+
+                <aside class="admin-chat-lista">
+
+
+                    <div class="admin-chat-lista-header">
+
+                        <div>
+
+                            <strong>
+                                Conversas
+                            </strong>
+
+                            <span id="contador-conversas">
+                                0 conversas
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="btn-atualizar-conversas"
+                            class="admin-chat-refresh"
+                            aria-label="Atualizar conversas"
+                            title="Atualizar conversas"
+                        >
+                            ↻
+                        </button>
+
+                    </div>
+
+
+                    <div class="admin-chat-busca">
+
+                        <input
+                            type="search"
+                            id="busca-conversa"
+                            placeholder="Buscar usuário..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <div
+                        class="admin-chat-conversas"
+                        id="admin-chat-conversas"
+                    >
+
+                        <div
+                            class="admin-chat-loading"
+                            id="admin-chat-loading"
+                        >
+                            Carregando conversas...
+                        </div>
+
+                    </div>
+
+                </aside>
+
+
+                <div class="admin-chat-principal">
+
+
+                    <div
+                        class="admin-chat-sem-conversa"
+                        id="admin-chat-sem-conversa"
+                    >
+
+                        <div class="admin-chat-sem-conversa-icon">
+                            💬
+                        </div>
+
+                        <h2>
+                            Selecione uma conversa
+                        </h2>
+
+                        <p>
+                            Escolha um usuário na lista ao lado
+                            para visualizar e responder às mensagens.
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="admin-chat-conversa"
+                        id="admin-chat-conversa"
+                        style="display: none;"
+                    >
+
+
+                        <div class="admin-chat-conversa-header">
+
+                            <div class="admin-chat-usuario">
+
+                                <div class="admin-chat-avatar">
+                                    👤
+                                </div>
+
+
+                                <div>
+
+                                    <strong
+                                        id="admin-chat-usuario-nome"
+                                    >
+                                        Usuário
+                                    </strong>
+
+                                    <span
+                                        id="admin-chat-usuario-email"
+                                    >
+                                        usuario@email.com
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="admin-chat-acoes">
+
+                                <span
+                                    class="admin-chat-status"
+                                    id="admin-chat-status"
+                                >
+                                    Aberta
+                                </span>
+
+
+                                <button
+                                    type="button"
+                                    id="btn-fechar-conversa"
+                                    class="admin-chat-fechar"
+                                >
+                                    Fechar conversa
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="admin-chat-mensagens"
+                            id="admin-chat-mensagens"
+                            aria-live="polite"
+                        >
+                        </div>
+
+
+                        <form
+                            class="admin-chat-form"
+                            id="admin-chat-form"
+                        >
+
+                            <div class="admin-chat-input-wrapper">
+
+                                <textarea
+                                    id="admin-chat-input"
+                                    maxlength="2000"
+                                    rows="1"
+                                    placeholder="Digite sua resposta..."
+                                    required
+                                ></textarea>
+
+
+                                <button
+                                    type="submit"
+                                    id="admin-chat-enviar"
+                                    class="admin-chat-enviar"
+                                >
+                                    Enviar
+                                    <span>➤</span>
+                                </button>
+
+                            </div>
+
+
+                            <div class="admin-chat-form-footer">
+
+                                <span>
+                                    Resposta enviada como administrador.
+                                </span>
+
+                                <span id="admin-chat-contador">
+                                    0 / 2000
+                                </span>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <div
+                id="admin-chat-alert"
+                class="chat-alert"
+                style="display: none;"
+                role="alert"
+            ></div>
+
+        </main>
+
+    </div>
+
+
+    <script src="js/menu.js"></script>
+    <script src="js/admin-chat.js"></script>
+
+</body>
+
+</html>
