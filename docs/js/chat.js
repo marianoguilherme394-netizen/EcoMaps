@@ -98,16 +98,20 @@ async function carregarMensagens() {
 
     try {
 
-        const resposta = await fetch("/api/chat/mensagens", {
+        const urlMensagens = new URL(
+    "/api/chat/mensagens",
+    window.location.origin
+);
 
-            method: "GET",
-
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-
-        });
-
+const resposta = await fetch(
+    urlMensagens.href,
+    {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+);
 
         // Token inválido ou expirado
         if (resposta.status === 401 || resposta.status === 403) {
@@ -218,26 +222,24 @@ async function enviarMensagem(evento) {
         chatSendButton.textContent = "Enviando...";
 
 
-        const resposta = await fetch(
-            "/api/chat/mensagens",
-            {
+        const urlEnviarMensagem = new URL(
+    "/api/chat/mensagens",
+    window.location.origin
+);
 
-                method: "POST",
-
-                headers: {
-
-                    "Content-Type": "application/json",
-
-                    Authorization: `Bearer ${token}`
-
-                },
-
-                body: JSON.stringify({
-                    mensagem
-                })
-
-            }
-        );
+const resposta = await fetch(
+    urlEnviarMensagem.href,
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            mensagem
+        })
+    }
+);
 
 
         if (resposta.status === 401 || resposta.status === 403) {
@@ -365,16 +367,19 @@ async function iniciarChat() {
     try {
 
         // Garante que exista uma conversa
-        const resposta = await fetch(
-            "/api/chat/conversa",
-            {
+        const urlConversa = new URL(
+    "/api/chat/conversa",
+    window.location.origin
+);
 
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-
-            }
-        );
+const resposta = await fetch(
+    urlConversa.href,
+    {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+);
 
 
         if (resposta.status === 401 || resposta.status === 403) {
