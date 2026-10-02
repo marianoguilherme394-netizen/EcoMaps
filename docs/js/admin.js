@@ -47,7 +47,7 @@ function obterToken() {
 // ============================================
 
 async function requisicao(
-    url,
+    caminho,
     opcoes = {}
 ) {
 
@@ -74,14 +74,25 @@ async function requisicao(
     }
 
 
+    // URL absoluta baseada no endereço atual do site
+    const url = new URL(
+        caminho,
+        window.location.origin
+    );
+
+
     const resposta =
-        await fetch(url, {
-            ...opcoes,
-            headers
-        });
+        await fetch(
+            url.href,
+            {
+                ...opcoes,
+                headers
+            }
+        );
 
 
     let dados = {};
+
 
     try {
 
@@ -237,49 +248,49 @@ function renderizarEcopontos() {
                 : "";
 
 
-                linha.innerHTML = `
+        linha.innerHTML = `
 
-                <td data-label="Nome">
-                    <strong>
-                        ${escaparHTML(ecoponto.nome)}
-                    </strong>
-                </td>
-            
-                <td data-label="Cidade">
-                    ${escaparHTML(ecoponto.cidade)}
-                </td>
-            
-                <td data-label="Materiais">
-                    ${escaparHTML(materiais)}
-                </td>
-            
-                <td data-label="Endereço">
-                    ${escaparHTML(ecoponto.endereco)}
-                </td>
-            
-                <td data-label="Ações">
-            
-                    <div class="admin-actions">
-            
-                        <button
-                            class="btn-edit"
-                            data-id="${ecoponto.id}"
-                        >
-                            ✏️ Editar
-                        </button>
-            
-                        <button
-                            class="btn-delete"
-                            data-id="${ecoponto.id}"
-                        >
-                            🗑️ Remover
-                        </button>
-            
-                    </div>
-            
-                </td>
-            
-            `;
+            <td data-label="Nome">
+                <strong>
+                    ${escaparHTML(ecoponto.nome)}
+                </strong>
+            </td>
+
+            <td data-label="Cidade">
+                ${escaparHTML(ecoponto.cidade)}
+            </td>
+
+            <td data-label="Materiais">
+                ${escaparHTML(materiais)}
+            </td>
+
+            <td data-label="Endereço">
+                ${escaparHTML(ecoponto.endereco)}
+            </td>
+
+            <td data-label="Ações">
+
+                <div class="admin-actions">
+
+                    <button
+                        class="btn-edit"
+                        data-id="${ecoponto.id}"
+                    >
+                        ✏️ Editar
+                    </button>
+
+                    <button
+                        class="btn-delete"
+                        data-id="${ecoponto.id}"
+                    >
+                        🗑️ Remover
+                    </button>
+
+                </div>
+
+            </td>
+
+        `;
 
 
         lista.appendChild(linha);
@@ -486,13 +497,10 @@ formulario.addEventListener(
             document
                 .getElementById("materiais")
                 .value
-
                 .split(",")
-
                 .map(material =>
                     material.trim()
                 )
-
                 .filter(Boolean);
 
 
