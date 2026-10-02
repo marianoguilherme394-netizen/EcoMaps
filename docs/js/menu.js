@@ -126,16 +126,21 @@ async function verificarAcessos() {
 
     try {
 
-        const resposta = await fetch(
-            "/api/usuarios/me",
-            {
-                method: "GET",
+        const urlUsuario = new URL(
+    "/api/usuarios/me",
+    window.location.origin
+);
 
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        );
+const resposta = await fetch(
+    urlUsuario.href,
+    {
+        method: "GET",
+
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+);
 
 
         // Token expirado ou inválido
