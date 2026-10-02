@@ -287,3 +287,41 @@ document.addEventListener(
 // =========================================================
 
 verificarAcessos();
+
+function atualizarMenuAtivo() {
+    const paginaAtual =
+        window.location.pathname.split("/").pop() || "index.html";
+
+    // Menu desktop
+    document
+        .querySelectorAll(".desktop-nav a")
+        .forEach((link) => {
+            link.classList.remove("active");
+
+            const destino =
+                link.getAttribute("href");
+
+            if (destino === paginaAtual) {
+                link.classList.add("active");
+            }
+        });
+
+    // Menu mobile
+    document
+        .querySelectorAll(".sidebar nav a")
+        .forEach((link) => {
+            link.classList.remove("ativo");
+
+            const destino =
+                link.getAttribute("href");
+
+            if (destino === paginaAtual) {
+                link.classList.add("ativo");
+            }
+        });
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    atualizarMenuAtivo
+);
