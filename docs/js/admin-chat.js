@@ -4,9 +4,31 @@ const token =
     );
 
 
+if (!token) {
+
+    window.location.href =
+        "login.html";
+}
+
+
 const listaConversas =
     document.getElementById(
         "admin-chat-conversas"
+    );
+
+const contadorConversas =
+    document.getElementById(
+        "contador-conversas"
+    );
+
+const campoBusca =
+    document.getElementById(
+        "busca-conversa"
+    );
+
+const btnAtualizar =
+    document.getElementById(
+        "btn-atualizar-conversas"
     );
 
 const areaSemConversa =
@@ -19,17 +41,12 @@ const areaConversa =
         "admin-chat-conversa"
     );
 
-const mensagensContainer =
-    document.getElementById(
-        "admin-chat-mensagens"
-    );
-
-const usuarioNome =
+const nomeUsuario =
     document.getElementById(
         "admin-chat-usuario-nome"
     );
 
-const usuarioEmail =
+const emailUsuario =
     document.getElementById(
         "admin-chat-usuario-email"
     );
@@ -39,39 +56,29 @@ const statusConversa =
         "admin-chat-status"
     );
 
-const formulario =
+const mensagensContainer =
+    document.getElementById(
+        "admin-chat-mensagens"
+    );
+
+const formResposta =
     document.getElementById(
         "admin-chat-form"
     );
 
-const inputMensagem =
+const inputResposta =
     document.getElementById(
         "admin-chat-input"
     );
 
-const botaoEnviar =
+const btnEnviar =
     document.getElementById(
         "admin-chat-enviar"
     );
 
-const botaoFechar =
+const btnFechar =
     document.getElementById(
         "btn-fechar-conversa"
-    );
-
-const botaoAtualizar =
-    document.getElementById(
-        "btn-atualizar-conversas"
-    );
-
-const campoBusca =
-    document.getElementById(
-        "busca-conversa"
-    );
-
-const contadorConversas =
-    document.getElementById(
-        "contador-conversas"
     );
 
 const contadorCaracteres =
@@ -85,119 +92,75 @@ const alerta =
     );
 
 
-let conversaSelecionadaId = null;
-let conversasCarregadas = [];
+let adminId =
+    null;
+
+let conversaSelecionada =
+    null;
+
+let conversas =
+    [];
+
+let mensagensRenderizadas =
+    new Set();
+
+let carregandoMensagens =
+    false;
 
 
-// =========================================================
-// VERIFICA LOGIN
-// =========================================================
-
-if (!token) {
-
-    window.location.href =
-        "login.html";
-
-}
-
-
-// =========================================================
-// MONTA URL ABSOLUTA
-// =========================================================
-
-function criarUrl(caminho) {
+function criarUrl(
+    caminho
+) {
 
     return new URL(
         caminho,
         window.location.origin
     ).href;
-
 }
 
 
-// =========================================================
-// ALERTA
-// =========================================================
-
-function mostrarAlerta(
-    mensagem,
-    tipo = "erro"
+async function requisicao(
+    caminho,
+    opcoes = {}
 ) {
 
-    alerta.textContent =
-        mensagem;
-
-    alerta.style.display =
-        "block";
-
-    alerta.classList.remove(
-        "erro",
-        "sucesso"
-    );
-
-    alerta.classList.add(
-        tipo
-    );
+    const headers = {
+        ...(opcoes.headers || {}),
+        Authorization: `Bearer ${token}`
+    };
 
 
-    setTimeout(
-        () => {
+    if (opcoes.body) {
 
-            alerta.style.display =
-                "none";
-
-        },
-        4000
-    );
-
-}
+        headers["Content-Type"] =
+            "application/json";
+    }
 
 
-// =========================================================
-// FORMATA HORÁRIO
-// =========================================================
-
-function formatarHora(data) {
-
-    const dataMensagem =
-        new Date(data);
-
-    return dataMensagem
-        .toLocaleTimeString(
-            "pt-BR",
+    const resposta =
+        await fetch(
+            criarUrl(caminho),
             {
-                hour: "2-digit",
-                minute: "2-digit"
+                ...opcoes,
+                headers
             }
         );
 
-}
+
+    let dados = {};
+
+    try {
+
+        dados =
+            await resposta.json();
+
+    } catch {
+
+        dados = {};
+    }
 
 
-// =========================================================
-// FORMATA DATA
-// =========================================================
-
-function formatarData(data) {
-
-    const dataMensagem =
-        new Date(data);
-
-    return dataMensagem
-        .toLocaleDateString(
-            "pt-BR"
-        );
-
-}
-
-
-// =========================================================
-// TRATA NÃO AUTORIZADO
-// =========================================================
-
-function tratarNaoAutorizado(status) {
-
-    if (status === 401) {
+    if (resposta.status === 401) {
 
         localStorage.removeItem(
             "ecomaps_token"
@@ -206,88 +169,258 @@ function tratarNaoAutorizado(status) {
         window.location.href =
             "login.html";
 
-        return true;
-
+        throw new Error(
+            "Sessão expirada."
+        );
     }
 
 
-    if (status === 403) {
-
-        alert(
-            "Você não possui permissão de administrador."
-        );
+    if (
+        resposta.status === 403
+    ) {
 
         window.location.href =
             "index.html";
 
-        return true;
-
+        throw new Error(
+            "Acesso permitido somente para administradores."
+        );
     }
 
 
-    return false;
+    if (!resposta.ok) {
 
+        throw new Error(
+            dados.mensagem ||
+            "Erro ao realizar operação."
+        );
+    }
+
+
+    return dados;
 }
 
 
-// =========================================================
-// CARREGA TODAS AS CONVERSAS
-// =========================================================
+function mostrarAlerta(
+    mensagem,
+    tipo = "erro"
+) {
+
+    if (!alerta) {
+        return;
+    }
+
+
+    alerta.textContent =
+        mensagem;
+
+    alerta.className =
+        `chat-alert ${tipo}`;
+
+    alerta.style.display =
+        "block";
+
+
+    setTimeout(
+        () => {
+
+            alerta.style.display =
+                "none";
+        },
+        4000
+    );
+}
+
+
+function formatarHora(
+    data
+) {
+
+    if (!data) {
+        return "";
+    }
+
+
+    const horario =
+        new Date(data);
+
+
+    if (
+        Number.isNaN(
+            horario.getTime()
+        )
+    ) {
+
+        return "";
+    }
+
+
+    return horario.toLocaleTimeString(
+        "pt-BR",
+        {
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+}
+
+
+async function carregarAdmin() {
+
+    const dados =
+        await requisicao(
+            "/api/usuarios/me"
+        );
+
+
+    if (
+        dados.usuario.perfil !==
+        "admin"
+    ) {
+
+        window.location.href =
+            "index.html";
+
+        return;
+    }
+
+
+    adminId =
+        Number(
+            dados.usuario.id
+        );
+}
+
+
+function criarElementoMensagem(
+    mensagem
+) {
+
+    const remetenteId =
+        Number(
+            mensagem.remetente_id
+        );
+
+
+    /*
+        Na tela do administrador:
+
+        mensagem enviada pelo ADM
+        = verde
+
+        mensagem enviada pelo usuário
+        = branca
+    */
+
+    const minhaMensagem =
+        remetenteId === adminId;
+
+
+    const elemento =
+        document.createElement(
+            "div"
+        );
+
+
+    /*
+        Reutilizamos as mesmas classes visuais.
+
+        Verde = mensagem-usuario
+        Branco = mensagem-admin
+    */
+
+    elemento.className =
+        minhaMensagem
+            ? "mensagem mensagem-usuario"
+            : "mensagem mensagem-admin";
+
+
+    elemento.dataset.mensagemId =
+        mensagem.id;
+
+
+    const conteudo =
+        document.createElement(
+            "div"
+        );
+
+
+    conteudo.className =
+        "mensagem-conteudo";
+
+
+    conteudo.textContent =
+        mensagem.mensagem || "";
+
+
+    const hora =
+        document.createElement(
+            "span"
+        );
+
+
+    hora.className =
+        "mensagem-hora";
+
+
+    hora.textContent =
+        formatarHora(
+            mensagem.criado_em
+        );
+
+
+    elemento.appendChild(
+        conteudo
+    );
+
+
+    elemento.appendChild(
+        hora
+    );
+
+
+    return elemento;
+}
+
+
+function rolarParaFinal() {
+
+    mensagensContainer.scrollTop =
+        mensagensContainer.scrollHeight;
+}
+
+
+function pertoDoFinal() {
+
+    const distancia =
+        mensagensContainer.scrollHeight -
+        mensagensContainer.scrollTop -
+        mensagensContainer.clientHeight;
+
+
+    return distancia < 120;
+}
+
 
 async function carregarConversas() {
 
     try {
 
-        const url =
-            criarUrl(
+        const dados =
+            await requisicao(
                 "/api/chat/admin/conversas"
             );
 
 
-        const resposta =
-            await fetch(
-                url,
-                {
-                    method: "GET",
-
-                    headers: {
-                        Authorization:
-                            `Bearer ${token}`
-                    }
-                }
-            );
-
-
-        if (
-            tratarNaoAutorizado(
-                resposta.status
-            )
-        ) {
-            return;
-        }
-
-
-        if (!resposta.ok) {
-
-            throw new Error(
-                "Erro ao carregar conversas."
-            );
-
-        }
-
-
-        const dados =
-            await resposta.json();
-
-
-        conversasCarregadas =
-            dados.conversas || [];
+        conversas =
+            Array.isArray(dados)
+                ? dados
+                : dados.conversas || [];
 
 
         renderizarConversas(
-            conversasCarregadas
+            conversas
         );
-
 
     } catch (erro) {
 
@@ -297,54 +430,83 @@ async function carregarConversas() {
         );
 
 
-        listaConversas.innerHTML = `
-            <div class="admin-chat-loading">
-                Não foi possível carregar as conversas.
-            </div>
-        `;
-
+        listaConversas.innerHTML =
+            `
+                <div class="admin-chat-loading">
+                    ${erro.message}
+                </div>
+            `;
     }
-
 }
 
 
-// =========================================================
-// RENDERIZA LISTA DE CONVERSAS
-// =========================================================
-
 function renderizarConversas(
-    conversas
+    lista
 ) {
 
     listaConversas.innerHTML =
         "";
 
 
+    const busca =
+        campoBusca.value
+            .trim()
+            .toLowerCase();
+
+
+    const filtradas =
+        lista.filter(
+            conversa => {
+
+                const nome =
+                    String(
+                        conversa.usuario_nome ||
+                        conversa.nome ||
+                        ""
+                    ).toLowerCase();
+
+
+                const email =
+                    String(
+                        conversa.usuario_email ||
+                        conversa.email ||
+                        ""
+                    ).toLowerCase();
+
+
+                return (
+                    nome.includes(busca) ||
+                    email.includes(busca)
+                );
+            }
+        );
+
+
     contadorConversas.textContent =
-        `${conversas.length} ${
-            conversas.length === 1
+        `${filtradas.length} ${
+            filtradas.length === 1
                 ? "conversa"
                 : "conversas"
         }`;
 
 
     if (
-        conversas.length === 0
+        filtradas.length === 0
     ) {
 
-        listaConversas.innerHTML = `
-            <div class="admin-chat-loading">
-                Nenhuma conversa encontrada.
-            </div>
-        `;
+        listaConversas.innerHTML =
+            `
+                <div class="admin-chat-loading">
+                    Nenhuma conversa encontrada.
+                </div>
+            `;
 
         return;
-
     }
 
 
-    conversas.forEach(
-        (conversa) => {
+    filtradas.forEach(
+        conversa => {
 
             const item =
                 document.createElement(
@@ -355,605 +517,400 @@ function renderizarConversas(
             item.type =
                 "button";
 
+
             item.className =
-                "admin-chat-item";
+                "admin-chat-conversa-item";
 
 
             if (
-                Number(conversa.id) ===
+                conversaSelecionada &&
                 Number(
-                    conversaSelecionadaId
+                    conversaSelecionada.id
+                ) ===
+                Number(
+                    conversa.id
                 )
             ) {
 
                 item.classList.add(
                     "ativo"
                 );
-
             }
 
 
-            const naoLidas =
-                Number(
-                    conversa
-                        .mensagens_nao_lidas
-                ) || 0;
+            const nome =
+                conversa.usuario_nome ||
+                conversa.nome ||
+                "Usuário";
 
 
-            item.innerHTML = `
-
-                <div class="admin-chat-item-topo">
-
-                    <strong>
-                        ${escaparHTML(
-                            conversa.usuario_nome
-                        )}
-                    </strong>
-
-                    ${
-                        naoLidas > 0
-                            ? `
-                                <span class="admin-chat-badge">
-                                    ${naoLidas}
-                                </span>
-                              `
-                            : ""
-                    }
-
-                </div>
+            const email =
+                conversa.usuario_email ||
+                conversa.email ||
+                "";
 
 
-                <div class="admin-chat-item-email">
-                    ${escaparHTML(
-                        conversa.usuario_email
-                    )}
-                </div>
+            item.innerHTML =
+                `
+                    <strong></strong>
+                    <span></span>
+                `;
 
 
-                <div class="admin-chat-item-preview">
-
-                    ${
-                        conversa
-                            .ultima_mensagem
-                            ? escaparHTML(
-                                conversa
-                                    .ultima_mensagem
-                            )
-                            : "Nenhuma mensagem"
-                    }
-
-                </div>
+            item.querySelector(
+                "strong"
+            ).textContent =
+                nome;
 
 
-                <div class="admin-chat-item-rodape">
-
-                    <span>
-                        ${formatarData(
-                            conversa
-                                .atualizado_em
-                        )}
-                    </span>
-
-                    <span>
-                        ${
-                            conversa.status ===
-                            "aberta"
-                                ? "Aberta"
-                                : "Fechada"
-                        }
-                    </span>
-
-                </div>
-            `;
+            item.querySelector(
+                "span"
+            ).textContent =
+                email;
 
 
             item.addEventListener(
                 "click",
                 () => {
 
-                    abrirConversa(
-                        conversa.id
+                    selecionarConversa(
+                        conversa
                     );
-
                 }
             );
 
 
-            listaConversas
-                .appendChild(
-                    item
-                );
-
+            listaConversas.appendChild(
+                item
+            );
         }
     );
-
 }
 
 
-// =========================================================
-// EVITA HTML MALICIOSO
-// =========================================================
-
-function escaparHTML(valor) {
-
-    const elemento =
-        document.createElement(
-            "div"
-        );
-
-    elemento.textContent =
-        valor ?? "";
-
-    return elemento.innerHTML;
-
-}
-
-
-// =========================================================
-// ABRE UMA CONVERSA
-// =========================================================
-
-async function abrirConversa(
-    conversaId
+async function selecionarConversa(
+    conversa
 ) {
 
-    conversaSelecionadaId =
-        conversaId;
+    conversaSelecionada =
+        conversa;
 
 
-    try {
+    mensagensRenderizadas =
+        new Set();
 
-        const url =
-            criarUrl(
-                `/api/chat/admin/conversas/${conversaId}/mensagens`
-            );
-
-
-        const resposta =
-            await fetch(
-                url,
-                {
-                    method: "GET",
-
-                    headers: {
-                        Authorization:
-                            `Bearer ${token}`
-                    }
-                }
-            );
-
-
-        if (
-            tratarNaoAutorizado(
-                resposta.status
-            )
-        ) {
-            return;
-        }
-
-
-        if (!resposta.ok) {
-
-            throw new Error(
-                "Não foi possível abrir a conversa."
-            );
-
-        }
-
-
-        const dados =
-            await resposta.json();
-
-
-        areaSemConversa.style.display =
-            "none";
-
-        areaConversa.style.display =
-            "flex";
-
-
-        usuarioNome.textContent =
-            dados.conversa
-                .usuario_nome;
-
-
-        usuarioEmail.textContent =
-            dados.conversa
-                .usuario_email;
-
-
-        atualizarStatus(
-            dados.conversa.status
-        );
-
-
-        renderizarMensagens(
-            dados.mensagens || []
-        );
-
-
-        await carregarConversas();
-
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao abrir conversa:",
-            erro
-        );
-
-
-        mostrarAlerta(
-            "Não foi possível abrir a conversa."
-        );
-
-    }
-
-}
-
-
-// =========================================================
-// RENDERIZA MENSAGENS
-// =========================================================
-
-function renderizarMensagens(
-    mensagens
-) {
 
     mensagensContainer.innerHTML =
         "";
 
 
-    if (
-        mensagens.length === 0
-    ) {
-
-        mensagensContainer.innerHTML = `
-            <div class="chat-vazio">
-
-                <p>
-                    Nenhuma mensagem.
-                </p>
-
-                <span>
-                    O usuário ainda não enviou mensagens.
-                </span>
-
-            </div>
-        `;
-
-        return;
-
-    }
+    areaSemConversa.style.display =
+        "none";
 
 
-    mensagens.forEach(
-        (mensagem) => {
-
-            const elemento =
-                document.createElement(
-                    "div"
-                );
+    areaConversa.style.display =
+        "flex";
 
 
-            if (
-                mensagem
-                    .remetente_perfil ===
-                "admin"
-            ) {
-
-                elemento.className =
-                    "mensagem mensagem-usuario";
-
-            } else {
-
-                elemento.className =
-                    "mensagem mensagem-admin";
-
-            }
+    nomeUsuario.textContent =
+        conversa.usuario_nome ||
+        conversa.nome ||
+        "Usuário";
 
 
-            const conteudo =
-                document.createElement(
-                    "div"
-                );
-
-            conteudo.className =
-                "mensagem-conteudo";
-
-            conteudo.textContent =
-                mensagem.mensagem;
+    emailUsuario.textContent =
+        conversa.usuario_email ||
+        conversa.email ||
+        "";
 
 
-            const remetente =
-                document.createElement(
-                    "span"
-                );
-
-            remetente.className =
-                "mensagem-remetente";
-
-            remetente.textContent =
-                mensagem
-                    .remetente_perfil ===
-                "admin"
-                    ? "Administrador"
-                    : mensagem
-                        .remetente_nome;
+    statusConversa.textContent =
+        conversa.status === "fechada"
+            ? "Fechada"
+            : "Aberta";
 
 
-            const hora =
-                document.createElement(
-                    "span"
-                );
-
-            hora.className =
-                "mensagem-hora";
-
-            hora.textContent =
-                formatarHora(
-                    mensagem.criado_em
-                );
+    const fechada =
+        conversa.status ===
+        "fechada";
 
 
-            elemento.appendChild(
-                remetente
-            );
-
-            elemento.appendChild(
-                conteudo
-            );
-
-            elemento.appendChild(
-                hora
-            );
+    inputResposta.disabled =
+        fechada;
 
 
-            mensagensContainer
-                .appendChild(
-                    elemento
-                );
+    btnEnviar.disabled =
+        fechada;
 
-        }
+
+    btnFechar.disabled =
+        fechada;
+
+
+    btnFechar.textContent =
+        fechada
+            ? "Conversa fechada"
+            : "Fechar conversa";
+
+
+    renderizarConversas(
+        conversas
     );
 
 
-    mensagensContainer.scrollTop =
-        mensagensContainer
-            .scrollHeight;
-
+    await carregarMensagensConversa(
+        true
+    );
 }
 
 
-// =========================================================
-// ENVIA RESPOSTA DO ADMIN
-// =========================================================
+async function carregarMensagensConversa(
+    primeiroCarregamento = false
+) {
 
-async function enviarMensagem(
+    if (
+        !conversaSelecionada ||
+        carregandoMensagens
+    ) {
+
+        return;
+    }
+
+
+    carregandoMensagens =
+        true;
+
+
+    try {
+
+        const id =
+            Number(
+                conversaSelecionada.id
+            );
+
+
+        const dados =
+            await requisicao(
+                `/api/chat/admin/conversas/${id}/mensagens`
+            );
+
+
+        const mensagens =
+            Array.isArray(dados)
+                ? dados
+                : dados.mensagens || [];
+
+
+        const estavaNoFinal =
+            pertoDoFinal();
+
+
+        if (primeiroCarregamento) {
+
+            mensagensContainer.innerHTML =
+                "";
+
+            mensagensRenderizadas =
+                new Set();
+        }
+
+
+        mensagens.forEach(
+            mensagem => {
+
+                const mensagemId =
+                    Number(
+                        mensagem.id
+                    );
+
+
+                if (
+                    mensagensRenderizadas.has(
+                        mensagemId
+                    )
+                ) {
+
+                    return;
+                }
+
+
+                mensagensContainer.appendChild(
+                    criarElementoMensagem(
+                        mensagem
+                    )
+                );
+
+
+                mensagensRenderizadas.add(
+                    mensagemId
+                );
+            }
+        );
+
+
+        if (
+            primeiroCarregamento ||
+            estavaNoFinal
+        ) {
+
+            rolarParaFinal();
+        }
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar mensagens:",
+            erro
+        );
+
+    } finally {
+
+        carregandoMensagens =
+            false;
+    }
+}
+
+
+async function enviarResposta(
     evento
 ) {
 
     evento.preventDefault();
 
 
-    if (
-        !conversaSelecionadaId
-    ) {
-
-        mostrarAlerta(
-            "Selecione uma conversa."
-        );
-
+    if (!conversaSelecionada) {
         return;
-
     }
 
 
     const mensagem =
-        inputMensagem
-            .value
-            .trim();
+        inputResposta.value.trim();
 
 
     if (!mensagem) {
-
-        mostrarAlerta(
-            "Digite uma mensagem antes de enviar."
-        );
-
         return;
-
     }
 
 
-    if (
-        mensagem.length > 2000
-    ) {
+    btnEnviar.disabled =
+        true;
 
-        mostrarAlerta(
-            "A mensagem deve possuir no máximo 2000 caracteres."
-        );
 
-        return;
-
-    }
+    inputResposta.disabled =
+        true;
 
 
     try {
 
-        botaoEnviar.disabled =
-            true;
-
-        botaoEnviar.textContent =
-            "Enviando...";
-
-
-        const url =
-            criarUrl(
-                `/api/chat/admin/conversas/${conversaSelecionadaId}/mensagens`
+        const id =
+            Number(
+                conversaSelecionada.id
             );
 
 
-        const resposta =
-            await fetch(
-                url,
-                {
-                    method: "POST",
+        await requisicao(
+            `/api/chat/admin/conversas/${id}/mensagens`,
+            {
+                method: "POST",
 
-                    headers: {
-
-                        "Content-Type":
-                            "application/json",
-
-                        Authorization:
-                            `Bearer ${token}`
-
-                    },
-
-                    body:
-                        JSON.stringify({
-                            mensagem
-                        })
-
-                }
-            );
+                body: JSON.stringify({
+                    mensagem
+                })
+            }
+        );
 
 
-        if (
-            tratarNaoAutorizado(
-                resposta.status
-            )
-        ) {
-            return;
-        }
-
-
-        const dados =
-            await resposta.json();
-
-
-        if (!resposta.ok) {
-
-            mostrarAlerta(
-                dados.mensagem ||
-                "Não foi possível enviar a mensagem."
-            );
-
-            return;
-
-        }
-
-
-        inputMensagem.value =
+        inputResposta.value =
             "";
 
 
-        atualizarContador();
+        inputResposta.style.height =
+            "auto";
 
 
-        await abrirConversa(
-            conversaSelecionadaId
-        );
+        contadorCaracteres.textContent =
+            "0 / 2000";
 
+
+        await carregarMensagensConversa();
+
+
+        rolarParaFinal();
+
+
+        inputResposta.focus();
 
     } catch (erro) {
 
-        console.error(
-            "Erro ao enviar mensagem:",
-            erro
-        );
-
-
         mostrarAlerta(
-            "Não foi possível enviar a mensagem."
+            erro.message
         );
-
 
     } finally {
 
-        botaoEnviar.disabled =
-            false;
+        if (
+            conversaSelecionada.status !==
+            "fechada"
+        ) {
 
-        botaoEnviar.innerHTML = `
-            Enviar
-            <span>➤</span>
-        `;
+            btnEnviar.disabled =
+                false;
 
+            inputResposta.disabled =
+                false;
+        }
     }
-
 }
 
 
-// =========================================================
-// FECHA CONVERSA
-// =========================================================
-
 async function fecharConversa() {
 
-    if (
-        !conversaSelecionadaId
-    ) {
-        return;
-    }
-
-
-    const confirmar =
-        confirm(
-            "Deseja realmente fechar esta conversa?"
-        );
-
-
-    if (!confirmar) {
+    if (!conversaSelecionada) {
         return;
     }
 
 
     try {
 
-        const url =
-            criarUrl(
-                `/api/chat/admin/conversas/${conversaSelecionadaId}/fechar`
+        const id =
+            Number(
+                conversaSelecionada.id
             );
 
 
-        const resposta =
-            await fetch(
-                url,
-                {
-                    method: "PUT",
-
-                    headers: {
-                        Authorization:
-                            `Bearer ${token}`
-                    }
-
-                }
-            );
+        await requisicao(
+            `/api/chat/admin/conversas/${id}/fechar`,
+            {
+                method: "PUT"
+            }
+        );
 
 
-        if (
-            tratarNaoAutorizado(
-                resposta.status
-            )
-        ) {
-            return;
-        }
+        conversaSelecionada.status =
+            "fechada";
 
 
-        const dados =
-            await resposta.json();
+        statusConversa.textContent =
+            "Fechada";
 
 
-        if (!resposta.ok) {
+        inputResposta.disabled =
+            true;
 
-            mostrarAlerta(
-                dados.mensagem ||
-                "Não foi possível fechar a conversa."
-            );
 
-            return;
+        btnEnviar.disabled =
+            true;
 
-        }
+
+        btnFechar.disabled =
+            true;
+
+
+        btnFechar.textContent =
+            "Conversa fechada";
+
+
+        await carregarConversas();
 
 
         mostrarAlerta(
@@ -961,182 +918,68 @@ async function fecharConversa() {
             "sucesso"
         );
 
-
-        await abrirConversa(
-            conversaSelecionadaId
-        );
-
-
     } catch (erro) {
 
-        console.error(
-            "Erro ao fechar conversa:",
-            erro
-        );
-
-
         mostrarAlerta(
-            "Não foi possível fechar a conversa."
+            erro.message
         );
-
     }
-
 }
 
 
-// =========================================================
-// STATUS DA CONVERSA
-// =========================================================
-
-function atualizarStatus(
-    status
-) {
-
-    if (
-        status === "aberta"
-    ) {
-
-        statusConversa.textContent =
-            "Aberta";
-
-        statusConversa.classList
-            .remove(
-                "fechada"
-            );
-
-        statusConversa.classList
-            .add(
-                "aberta"
-            );
-
-
-        inputMensagem.disabled =
-            false;
-
-        botaoEnviar.disabled =
-            false;
-
-        botaoFechar.disabled =
-            false;
-
-        botaoFechar.style.display =
-            "inline-flex";
-
-
-    } else {
-
-        statusConversa.textContent =
-            "Fechada";
-
-        statusConversa.classList
-            .remove(
-                "aberta"
-            );
-
-        statusConversa.classList
-            .add(
-                "fechada"
-            );
-
-
-        inputMensagem.disabled =
-            true;
-
-        botaoEnviar.disabled =
-            true;
-
-        botaoFechar.disabled =
-            true;
-
-        botaoFechar.style.display =
-            "none";
-
-    }
-
-}
-
-
-// =========================================================
-// BUSCA DE USUÁRIO
-// =========================================================
-
-function buscarConversas() {
-
-    const busca =
-        campoBusca
-            .value
-            .trim()
-            .toLowerCase();
-
-
-    if (!busca) {
+campoBusca.addEventListener(
+    "input",
+    () => {
 
         renderizarConversas(
-            conversasCarregadas
+            conversas
         );
-
-        return;
-
     }
+);
 
 
-    const filtradas =
-        conversasCarregadas
-            .filter(
-                (conversa) => {
-
-                    const nome =
-                        conversa
-                            .usuario_nome
-                            ?.toLowerCase() ||
-                        "";
-
-                    const email =
-                        conversa
-                            .usuario_email
-                            ?.toLowerCase() ||
-                        "";
+btnAtualizar.addEventListener(
+    "click",
+    carregarConversas
+);
 
 
-                    return (
-                        nome.includes(
-                            busca
-                        ) ||
-                        email.includes(
-                            busca
-                        )
-                    );
-
-                }
-            );
+formResposta.addEventListener(
+    "submit",
+    enviarResposta
+);
 
 
-    renderizarConversas(
-        filtradas
-    );
-
-}
-
-
-// =========================================================
-// CONTADOR DE CARACTERES
-// =========================================================
-
-function atualizarContador() {
-
-    contadorCaracteres.textContent =
-        `${inputMensagem.value.length} / 2000`;
-
-}
+btnFechar.addEventListener(
+    "click",
+    fecharConversa
+);
 
 
-// =========================================================
-// ENTER ENVIA
-// =========================================================
+inputResposta.addEventListener(
+    "input",
+    () => {
 
-inputMensagem.addEventListener(
+        contadorCaracteres.textContent =
+            `${inputResposta.value.length} / 2000`;
+
+
+        inputResposta.style.height =
+            "auto";
+
+
+        inputResposta.style.height =
+            `${Math.min(
+                inputResposta.scrollHeight,
+                140
+            )}px`;
+    }
+);
+
+
+inputResposta.addEventListener(
     "keydown",
-    function (evento) {
+    evento => {
 
         if (
             evento.key === "Enter" &&
@@ -1145,147 +988,57 @@ inputMensagem.addEventListener(
 
             evento.preventDefault();
 
-            formulario
-                .requestSubmit();
-
+            formResposta.requestSubmit();
         }
-
     }
 );
 
 
-// =========================================================
-// EVENTOS
-// =========================================================
-
-formulario.addEventListener(
-    "submit",
-    enviarMensagem
-);
-
-
-botaoFechar.addEventListener(
-    "click",
-    fecharConversa
-);
-
-
-botaoAtualizar.addEventListener(
-    "click",
-    carregarConversas
-);
-
-
-campoBusca.addEventListener(
-    "input",
-    buscarConversas
-);
-
-
-inputMensagem.addEventListener(
-    "input",
-    atualizarContador
-);
-
-
-// =========================================================
-// ATUALIZAÇÃO AUTOMÁTICA
-// =========================================================
-
-setInterval(
-    async () => {
-
-        await carregarConversas();
-
-
-        if (
-            conversaSelecionadaId
-        ) {
-
-            await atualizarConversaSelecionada();
-
-        }
-
-    },
-    3000
-);
-
-
-// =========================================================
-// ATUALIZA CONVERSA SEM ALTERAR SELEÇÃO
-// =========================================================
-
-async function atualizarConversaSelecionada() {
-
-    if (
-        !conversaSelecionadaId
-    ) {
-        return;
-    }
-
+async function iniciarAdminChat() {
 
     try {
 
-        const url =
-            criarUrl(
-                `/api/chat/admin/conversas/${conversaSelecionadaId}/mensagens`
-            );
+        await carregarAdmin();
 
-
-        const resposta =
-            await fetch(
-                url,
-                {
-                    headers: {
-                        Authorization:
-                            `Bearer ${token}`
-                    }
-                }
-            );
-
-
-        if (
-            tratarNaoAutorizado(
-                resposta.status
-            )
-        ) {
-            return;
-        }
-
-
-        if (!resposta.ok) {
-            return;
-        }
-
-
-        const dados =
-            await resposta.json();
-
-
-        renderizarMensagens(
-            dados.mensagens || []
-        );
-
-
-        atualizarStatus(
-            dados.conversa.status
-        );
-
+        await carregarConversas();
 
     } catch (erro) {
 
         console.error(
-            "Erro ao atualizar conversa:",
+            "Erro ao iniciar chat ADM:",
             erro
         );
-
     }
-
 }
 
 
-// =========================================================
-// INICIALIZA
-// =========================================================
+iniciarAdminChat();
 
-carregarConversas();
+
+const intervaloAdmin =
+    setInterval(
+        async () => {
+
+            await carregarConversas();
+
+
+            if (
+                conversaSelecionada
+            ) {
+
+                await carregarMensagensConversa();
+            }
+        },
+        3000
+    );
+
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        clearInterval(
+            intervaloAdmin
+        );
+    }
+);

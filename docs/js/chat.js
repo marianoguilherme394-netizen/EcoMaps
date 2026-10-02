@@ -4,84 +4,146 @@ if (!token) {
     window.location.href = "login.html";
 }
 
-const chatMessages = document.getElementById("chat-messages");
-const chatForm = document.getElementById("chat-form");
-const chatInput = document.getElementById("chat-input");
-const chatSendButton = document.getElementById("chat-send-button");
-const contadorCaracteres = document.getElementById("contador-caracteres");
-const chatAlert = document.getElementById("chat-alert");
-const statusChat = document.getElementById("status-chat");
+const chatMessages =
+    document.getElementById("chat-messages");
 
-let idsMensagensRenderizadas = new Set();
-let carregamentoInicialConcluido = false;
-let atualizandoMensagens = false;
+const chatForm =
+    document.getElementById("chat-form");
+
+const chatInput =
+    document.getElementById("chat-input");
+
+const chatSendButton =
+    document.getElementById("chat-send-button");
+
+const contadorCaracteres =
+    document.getElementById("contador-caracteres");
+
+const chatAlert =
+    document.getElementById("chat-alert");
+
+const statusChat =
+    document.getElementById("status-chat");
+
+
+let usuarioLogadoId = null;
+
+let mensagensRenderizadas =
+    new Set();
+
+let carregamentoInicial =
+    true;
+
+let carregandoMensagens =
+    false;
 
 
 function criarUrl(caminho) {
-    return new URL(caminho, window.location.origin).href;
+
+    return new URL(
+        caminho,
+        window.location.origin
+    ).href;
 }
 
 
-function mostrarAlerta(mensagem, tipo = "erro") {
-
-    chatAlert.textContent = mensagem;
-    chatAlert.className = `chat-alert ${tipo}`;
-    chatAlert.style.display = "block";
-
-    setTimeout(() => {
-        chatAlert.style.display = "none";
-    }, 4000);
-}
-
-
-async function requisicao(caminho, opcoes = {}) {
+async function requisicao(
+    caminho,
+    opcoes = {}
+) {
 
     const headers = {
         ...(opcoes.headers || {}),
         Authorization: `Bearer ${token}`
     };
 
+
     if (opcoes.body) {
-        headers["Content-Type"] = "application/json";
+
+        headers["Content-Type"] =
+            "application/json";
     }
 
-    const resposta = await fetch(
-        criarUrl(caminho),
-        {
-            ...opcoes,
-            headers
-        }
-    );
+
+    const resposta =
+        await fetch(
+            criarUrl(caminho),
+            {
+                ...opcoes,
+                headers
+            }
+        );
+
 
     let dados = {};
 
     try {
-        dados = await resposta.json();
+
+        dados =
+            await resposta.json();
+
     } catch {
+
         dados = {};
     }
 
+
     if (resposta.status === 401) {
 
-        localStorage.removeItem("ecomaps_token");
+        localStorage.removeItem(
+            "ecomaps_token"
+        );
 
-        window.location.href = "login.html";
+        window.location.href =
+            "login.html";
 
         throw new Error(
-            dados.mensagem ||
-            "Sua sessão expirou."
+            "Sessão expirada."
         );
     }
+
 
     if (!resposta.ok) {
 
         throw new Error(
             dados.mensagem ||
-            "Não foi possível concluir a operação."
+            "Erro ao realizar operação."
         );
     }
 
+
     return dados;
+}
+
+
+function mostrarAlerta(
+    mensagem,
+    tipo = "erro"
+) {
+
+    if (!chatAlert) {
+        return;
+    }
+
+
+    chatAlert.textContent =
+        mensagem;
+
+    chatAlert.className =
+        `chat-alert ${tipo}`;
+
+    chatAlert.style.display =
+        "block";
+
+
+    setTimeout(
+        () => {
+
+            chatAlert.style.display =
+                "none";
+        },
+        4000
+    );
 }
 
 
@@ -91,11 +153,19 @@ function formatarHora(data) {
         return "";
     }
 
-    const horario = new Date(data);
 
-    if (Number.isNaN(horario.getTime())) {
+    const horario =
+        new Date(data);
+
+
+    if (
+        Number.isNaN(
+            horario.getTime()
+        )
+    ) {
         return "";
     }
+
 
     return horario.toLocaleTimeString(
         "pt-BR",
@@ -107,42 +177,84 @@ function formatarHora(data) {
 }
 
 
-function criarElementoMensagem(mensagem) {
+async function carregarUsuarioLogado() {
 
-    const elemento = document.createElement("div");
+    const dados =
+        await requisicao(
+            "/api/usuarios/me"
+        );
 
-    const ehUsuario =
-        mensagem.remetente_tipo === "usuario" ||
-        mensagem.tipo_remetente === "usuario" ||
-        mensagem.eh_admin === false ||
-        mensagem.admin === false;
 
-    elemento.className = ehUsuario
-        ? "mensagem mensagem-usuario"
-        : "mensagem mensagem-admin";
+    usuarioLogadoId =
+        Number(
+            dados.usuario.id
+        );
+}
 
-    elemento.dataset.mensagemId = mensagem.id;
+
+function criarElementoMensagem(
+    mensagem
+) {
+
+    const remetenteId =
+        Number(
+            mensagem.remetente_id
+        );
+
+
+    /*
+        Na tela do usuário:
+
+        mensagem enviada pelo próprio usuário
+        = verde
+
+        mensagem enviada pelo ADM
+        = branca
+    */
+
+    const minhaMensagem =
+        remetenteId === usuarioLogadoId;
+
+
+    const elemento =
+        document.createElement(
+            "div"
+        );
+
+
+    elemento.className =
+        minhaMensagem
+            ? "mensagem mensagem-usuario"
+            : "mensagem mensagem-admin";
+
+
+    elemento.dataset.mensagemId =
+        mensagem.id;
 
 
     const conteudo =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     conteudo.className =
         "mensagem-conteudo";
 
-    /*
-        Usamos textContent em vez de innerHTML
-        para não interpretar HTML enviado pelo usuário.
-    */
+
     conteudo.textContent =
         mensagem.mensagem || "";
 
 
     const hora =
-        document.createElement("span");
+        document.createElement(
+            "span"
+        );
+
 
     hora.className =
         "mensagem-hora";
+
 
     hora.textContent =
         formatarHora(
@@ -150,10 +262,29 @@ function criarElementoMensagem(mensagem) {
         );
 
 
-    elemento.appendChild(conteudo);
-    elemento.appendChild(hora);
+    elemento.appendChild(
+        conteudo
+    );
+
+
+    elemento.appendChild(
+        hora
+    );
+
 
     return elemento;
+}
+
+
+function estaPertoDoFinal() {
+
+    const distancia =
+        chatMessages.scrollHeight -
+        chatMessages.scrollTop -
+        chatMessages.clientHeight;
+
+
+    return distancia < 120;
 }
 
 
@@ -164,81 +295,89 @@ function rolarParaFinal() {
 }
 
 
-function usuarioEstaPertoDoFinal() {
+function renderizarMensagens(
+    mensagens
+) {
 
-    const distanciaDoFinal =
-        chatMessages.scrollHeight -
-        chatMessages.scrollTop -
-        chatMessages.clientHeight;
+    if (
+        !Array.isArray(
+            mensagens
+        )
+    ) {
 
-    return distanciaDoFinal < 120;
-}
-
-
-function renderizarMensagens(mensagens) {
-
-    if (!Array.isArray(mensagens)) {
         mensagens = [];
     }
 
 
     /*
-        PRIMEIRO CARREGAMENTO
-        ---------------------
-        Só limpamos a área uma vez.
+        Primeiro carregamento:
+        limpa somente uma vez.
     */
 
-    if (!carregamentoInicialConcluido) {
+    if (carregamentoInicial) {
 
-        chatMessages.innerHTML = "";
+        chatMessages.innerHTML =
+            "";
 
-        if (mensagens.length === 0) {
+
+        if (
+            mensagens.length === 0
+        ) {
 
             const vazio =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
-            vazio.className =
-                "chat-loading";
 
             vazio.id =
                 "chat-sem-mensagens";
 
+            vazio.className =
+                "chat-loading";
+
             vazio.textContent =
                 "Nenhuma mensagem ainda.";
 
-            chatMessages.appendChild(vazio);
 
-            carregamentoInicialConcluido = true;
+            chatMessages.appendChild(
+                vazio
+            );
+
+
+            carregamentoInicial =
+                false;
 
             return;
         }
 
 
-        mensagens.forEach((mensagem) => {
+        mensagens.forEach(
+            mensagem => {
 
-            if (
-                mensagem.id != null &&
-                idsMensagensRenderizadas.has(
-                    Number(mensagem.id)
-                )
-            ) {
-                return;
-            }
+                const id =
+                    Number(
+                        mensagem.id
+                    );
 
-            chatMessages.appendChild(
-                criarElementoMensagem(mensagem)
-            );
 
-            if (mensagem.id != null) {
+                chatMessages.appendChild(
+                    criarElementoMensagem(
+                        mensagem
+                    )
+                );
 
-                idsMensagensRenderizadas.add(
-                    Number(mensagem.id)
+
+                mensagensRenderizadas.add(
+                    id
                 );
             }
-        });
+        );
 
 
-        carregamentoInicialConcluido = true;
+        carregamentoInicial =
+            false;
+
 
         rolarParaFinal();
 
@@ -247,68 +386,72 @@ function renderizarMensagens(mensagens) {
 
 
     /*
-        ATUALIZAÇÕES SEGUINTES
-        ----------------------
-        Não apagamos o chat.
-        Só inserimos mensagens que ainda não existem.
+        Depois do primeiro carregamento,
+        adiciona apenas mensagens novas.
     */
 
-    const estavaPertoDoFinal =
-        usuarioEstaPertoDoFinal();
-
-    let adicionouMensagem = false;
+    const estavaNoFinal =
+        estaPertoDoFinal();
 
 
-    mensagens.forEach((mensagem) => {
-
-        const id =
-            Number(mensagem.id);
-
-        if (
-            mensagem.id != null &&
-            idsMensagensRenderizadas.has(id)
-        ) {
-            return;
-        }
+    let adicionouNovaMensagem =
+        false;
 
 
-        const avisoSemMensagens =
-            document.getElementById(
-                "chat-sem-mensagens"
+    mensagens.forEach(
+        mensagem => {
+
+            const id =
+                Number(
+                    mensagem.id
+                );
+
+
+            if (
+                mensagensRenderizadas.has(
+                    id
+                )
+            ) {
+
+                return;
+            }
+
+
+            const aviso =
+                document.getElementById(
+                    "chat-sem-mensagens"
+                );
+
+
+            if (aviso) {
+
+                aviso.remove();
+            }
+
+
+            chatMessages.appendChild(
+                criarElementoMensagem(
+                    mensagem
+                )
             );
 
-        if (avisoSemMensagens) {
-            avisoSemMensagens.remove();
-        }
 
-
-        chatMessages.appendChild(
-            criarElementoMensagem(mensagem)
-        );
-
-
-        if (mensagem.id != null) {
-
-            idsMensagensRenderizadas.add(
+            mensagensRenderizadas.add(
                 id
             );
+
+
+            adicionouNovaMensagem =
+                true;
         }
+    );
 
-
-        adicionouMensagem = true;
-    });
-
-
-    /*
-        Só move o scroll se realmente chegou
-        mensagem nova e o usuário já estava
-        perto do final da conversa.
-    */
 
     if (
-        adicionouMensagem &&
-        estavaPertoDoFinal
+        adicionouNovaMensagem &&
+        estavaNoFinal
     ) {
+
         rolarParaFinal();
     }
 }
@@ -316,15 +459,13 @@ function renderizarMensagens(mensagens) {
 
 async function carregarMensagens() {
 
-    /*
-        Evita duas atualizações simultâneas.
-    */
-
-    if (atualizandoMensagens) {
+    if (carregandoMensagens) {
         return;
     }
 
-    atualizandoMensagens = true;
+
+    carregandoMensagens =
+        true;
 
 
     try {
@@ -347,6 +488,7 @@ async function carregarMensagens() {
 
 
         if (statusChat) {
+
             statusChat.textContent =
                 "Atendimento";
         }
@@ -359,20 +501,25 @@ async function carregarMensagens() {
         );
 
 
-        if (
-            !carregamentoInicialConcluido
-        ) {
+        if (carregamentoInicial) {
 
-            chatMessages.innerHTML = "";
+            chatMessages.innerHTML =
+                "";
+
 
             const erroElemento =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             erroElemento.className =
                 "chat-loading";
 
+
             erroElemento.textContent =
                 erro.message;
+
 
             chatMessages.appendChild(
                 erroElemento
@@ -381,12 +528,15 @@ async function carregarMensagens() {
 
     } finally {
 
-        atualizandoMensagens = false;
+        carregandoMensagens =
+            false;
     }
 }
 
 
-async function enviarMensagem(evento) {
+async function enviarMensagem(
+    evento
+) {
 
     evento.preventDefault();
 
@@ -400,7 +550,9 @@ async function enviarMensagem(evento) {
     }
 
 
-    if (mensagem.length > 2000) {
+    if (
+        mensagem.length > 2000
+    ) {
 
         mostrarAlerta(
             "A mensagem pode ter no máximo 2000 caracteres."
@@ -410,8 +562,11 @@ async function enviarMensagem(evento) {
     }
 
 
-    chatSendButton.disabled = true;
-    chatInput.disabled = true;
+    chatSendButton.disabled =
+        true;
+
+    chatInput.disabled =
+        true;
 
 
     try {
@@ -428,17 +583,17 @@ async function enviarMensagem(evento) {
         );
 
 
-        chatInput.value = "";
+        chatInput.value =
+            "";
+
 
         contadorCaracteres.textContent =
             "0 / 2000";
 
 
-        /*
-            Após enviar, buscamos novamente.
-            Como os IDs antigos já estão salvos,
-            apenas a mensagem nova será adicionada.
-        */
+        chatInput.style.height =
+            "auto";
+
 
         await carregarMensagens();
 
@@ -455,32 +610,34 @@ async function enviarMensagem(evento) {
             erro
         );
 
+
         mostrarAlerta(
             erro.message
         );
 
     } finally {
 
-        chatSendButton.disabled = false;
-        chatInput.disabled = false;
+        chatSendButton.disabled =
+            false;
+
+        chatInput.disabled =
+            false;
     }
 }
 
 
 function atualizarContador() {
 
-    const quantidade =
-        chatInput.value.length;
-
     contadorCaracteres.textContent =
-        `${quantidade} / 2000`;
+        `${chatInput.value.length} / 2000`;
 }
 
 
-function ajustarAlturaTextarea() {
+function ajustarTextarea() {
 
     chatInput.style.height =
         "auto";
+
 
     chatInput.style.height =
         `${Math.min(
@@ -496,25 +653,14 @@ chatInput.addEventListener(
 
         atualizarContador();
 
-        ajustarAlturaTextarea();
+        ajustarTextarea();
     }
 );
 
 
-chatForm.addEventListener(
-    "submit",
-    enviarMensagem
-);
-
-
-/*
-    Enter envia.
-    Shift + Enter quebra linha.
-*/
-
 chatInput.addEventListener(
     "keydown",
-    (evento) => {
+    evento => {
 
         if (
             evento.key === "Enter" &&
@@ -529,19 +675,32 @@ chatInput.addEventListener(
 );
 
 
-/*
-    Primeiro carregamento
-*/
+chatForm.addEventListener(
+    "submit",
+    enviarMensagem
+);
 
-carregarMensagens();
+
+async function iniciarChat() {
+
+    try {
+
+        await carregarUsuarioLogado();
+
+        await carregarMensagens();
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao iniciar chat:",
+            erro
+        );
+    }
+}
 
 
-/*
-    Atualiza a conversa a cada 3 segundos.
+iniciarChat();
 
-    A diferença agora é que essa atualização
-    NÃO apaga nem recria as mensagens antigas.
-*/
 
 const intervaloChat =
     setInterval(
@@ -549,11 +708,6 @@ const intervaloChat =
         3000
     );
 
-
-/*
-    Se o usuário sair da página,
-    paramos o intervalo.
-*/
 
 window.addEventListener(
     "beforeunload",
