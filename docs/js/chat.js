@@ -1,34 +1,32 @@
 const token = localStorage.getItem("ecomaps_token");
 
-const chatMessages = document.getElementById("chat-messages");
-const chatForm = document.getElementById("chat-form");
-const chatInput = document.getElementById("chat-input");
-const chatLoading = document.getElementById("chat-loading");
-const chatAlert = document.getElementById("chat-alert");
-const contadorCaracteres = document.getElementById("contador-caracteres");
-const chatSendButton = document.getElementById("chat-send-button");
-
-
-// =========================================================
-// VERIFICA LOGIN
-// =========================================================
-
 if (!token) {
     window.location.href = "login.html";
 }
 
+const chatMessages = document.getElementById("chat-messages");
+const chatForm = document.getElementById("chat-form");
+const chatInput = document.getElementById("chat-input");
+const chatSendButton = document.getElementById("chat-send-button");
+const contadorCaracteres = document.getElementById("contador-caracteres");
+const chatAlert = document.getElementById("chat-alert");
+const statusChat = document.getElementById("status-chat");
 
-// =========================================================
-// MOSTRA ALERTA
-// =========================================================
+let idsMensagensRenderizadas = new Set();
+let carregamentoInicialConcluido = false;
+let atualizandoMensagens = false;
+
+
+function criarUrl(caminho) {
+    return new URL(caminho, window.location.origin).href;
+}
+
 
 function mostrarAlerta(mensagem, tipo = "erro") {
 
     chatAlert.textContent = mensagem;
+    chatAlert.className = `chat-alert ${tipo}`;
     chatAlert.style.display = "block";
-
-    chatAlert.classList.remove("erro", "sucesso");
-    chatAlert.classList.add(tipo);
 
     setTimeout(() => {
         chatAlert.style.display = "none";
@@ -36,171 +34,368 @@ function mostrarAlerta(mensagem, tipo = "erro") {
 }
 
 
-// =========================================================
-// FORMATA DATA/HORA
-// =========================================================
+async function requisicao(caminho, opcoes = {}) {
+
+    const headers = {
+        ...(opcoes.headers || {}),
+        Authorization: `Bearer ${token}`
+    };
+
+    if (opcoes.body) {
+        headers["Content-Type"] = "application/json";
+    }
+
+    const resposta = await fetch(
+        criarUrl(caminho),
+        {
+            ...opcoes,
+            headers
+        }
+    );
+
+    let dados = {};
+
+    try {
+        dados = await resposta.json();
+    } catch {
+        dados = {};
+    }
+
+    if (resposta.status === 401) {
+
+        localStorage.removeItem("ecomaps_token");
+
+        window.location.href = "login.html";
+
+        throw new Error(
+            dados.mensagem ||
+            "Sua sessão expirou."
+        );
+    }
+
+    if (!resposta.ok) {
+
+        throw new Error(
+            dados.mensagem ||
+            "Não foi possível concluir a operação."
+        );
+    }
+
+    return dados;
+}
+
 
 function formatarHora(data) {
 
-    const dataMensagem = new Date(data);
+    if (!data) {
+        return "";
+    }
 
-    return dataMensagem.toLocaleTimeString("pt-BR", {
-        hour: "2-digit",
-        minute: "2-digit"
-    });
+    const horario = new Date(data);
+
+    if (Number.isNaN(horario.getTime())) {
+        return "";
+    }
+
+    return horario.toLocaleTimeString(
+        "pt-BR",
+        {
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
 }
 
 
-// =========================================================
-// CRIA ELEMENTO DE MENSAGEM
-// =========================================================
+function criarElementoMensagem(mensagem) {
 
-function criarMensagem(mensagem) {
+    const elemento = document.createElement("div");
 
-    const divMensagem = document.createElement("div");
+    const ehUsuario =
+        mensagem.remetente_tipo === "usuario" ||
+        mensagem.tipo_remetente === "usuario" ||
+        mensagem.eh_admin === false ||
+        mensagem.admin === false;
 
-    const perfil = mensagem.remetente_perfil;
+    elemento.className = ehUsuario
+        ? "mensagem mensagem-usuario"
+        : "mensagem mensagem-admin";
 
-    if (perfil === "admin") {
-        divMensagem.className = "mensagem mensagem-admin";
-    } else {
-        divMensagem.className = "mensagem mensagem-usuario";
-    }
-
-
-    const conteudo = document.createElement("div");
-
-    conteudo.className = "mensagem-conteudo";
-
-    // textContent evita que alguém envie HTML malicioso
-    conteudo.textContent = mensagem.mensagem;
+    elemento.dataset.mensagemId = mensagem.id;
 
 
-    const hora = document.createElement("span");
+    const conteudo =
+        document.createElement("div");
 
-    hora.className = "mensagem-hora";
+    conteudo.className =
+        "mensagem-conteudo";
 
-    hora.textContent = formatarHora(mensagem.criado_em);
+    /*
+        Usamos textContent em vez de innerHTML
+        para não interpretar HTML enviado pelo usuário.
+    */
+    conteudo.textContent =
+        mensagem.mensagem || "";
 
 
-    divMensagem.appendChild(conteudo);
-    divMensagem.appendChild(hora);
+    const hora =
+        document.createElement("span");
 
-    return divMensagem;
+    hora.className =
+        "mensagem-hora";
+
+    hora.textContent =
+        formatarHora(
+            mensagem.criado_em
+        );
+
+
+    elemento.appendChild(conteudo);
+    elemento.appendChild(hora);
+
+    return elemento;
 }
 
 
-// =========================================================
-// CARREGA MENSAGENS
-// =========================================================
+function rolarParaFinal() {
 
-async function carregarMensagens() {
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+}
 
-    try {
 
-        const urlMensagens = new URL(
-    "/api/chat/mensagens",
-    window.location.origin
-);
+function usuarioEstaPertoDoFinal() {
 
-const resposta = await fetch(
-    urlMensagens.href,
-    {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+    const distanciaDoFinal =
+        chatMessages.scrollHeight -
+        chatMessages.scrollTop -
+        chatMessages.clientHeight;
+
+    return distanciaDoFinal < 120;
+}
+
+
+function renderizarMensagens(mensagens) {
+
+    if (!Array.isArray(mensagens)) {
+        mensagens = [];
     }
-);
-
-        // Token inválido ou expirado
-        if (resposta.status === 401 || resposta.status === 403) {
-
-            localStorage.removeItem("ecomaps_token");
-
-            window.location.href = "login.html";
-
-            return;
-        }
 
 
-        if (!resposta.ok) {
+    /*
+        PRIMEIRO CARREGAMENTO
+        ---------------------
+        Só limpamos a área uma vez.
+    */
 
-            throw new Error("Erro ao carregar mensagens.");
-
-        }
-
-
-        const dados = await resposta.json();
-
+    if (!carregamentoInicialConcluido) {
 
         chatMessages.innerHTML = "";
 
+        if (mensagens.length === 0) {
 
-        if (!dados.mensagens || dados.mensagens.length === 0) {
+            const vazio =
+                document.createElement("div");
 
-            const vazio = document.createElement("div");
+            vazio.className =
+                "chat-loading";
 
-            vazio.className = "chat-vazio";
+            vazio.id =
+                "chat-sem-mensagens";
 
-            vazio.innerHTML = `
-                <p>Nenhuma mensagem ainda.</p>
-                <span>
-                    Envie uma mensagem para iniciar a conversa
-                    com a equipe EcoMaps.
-                </span>
-            `;
+            vazio.textContent =
+                "Nenhuma mensagem ainda.";
 
             chatMessages.appendChild(vazio);
+
+            carregamentoInicialConcluido = true;
 
             return;
         }
 
 
-        dados.mensagens.forEach((mensagem) => {
+        mensagens.forEach((mensagem) => {
 
-            const elemento = criarMensagem(mensagem);
+            if (
+                mensagem.id != null &&
+                idsMensagensRenderizadas.has(
+                    Number(mensagem.id)
+                )
+            ) {
+                return;
+            }
 
-            chatMessages.appendChild(elemento);
+            chatMessages.appendChild(
+                criarElementoMensagem(mensagem)
+            );
 
+            if (mensagem.id != null) {
+
+                idsMensagensRenderizadas.add(
+                    Number(mensagem.id)
+                );
+            }
         });
 
 
-        // Vai automaticamente para a última mensagem
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        carregamentoInicialConcluido = true;
+
+        rolarParaFinal();
+
+        return;
+    }
 
 
-    } catch (erro) {
+    /*
+        ATUALIZAÇÕES SEGUINTES
+        ----------------------
+        Não apagamos o chat.
+        Só inserimos mensagens que ainda não existem.
+    */
 
-        console.error("Erro ao carregar chat:", erro);
+    const estavaPertoDoFinal =
+        usuarioEstaPertoDoFinal();
 
-        if (chatLoading) {
-            chatLoading.textContent =
-                "Não foi possível carregar a conversa.";
+    let adicionouMensagem = false;
+
+
+    mensagens.forEach((mensagem) => {
+
+        const id =
+            Number(mensagem.id);
+
+        if (
+            mensagem.id != null &&
+            idsMensagensRenderizadas.has(id)
+        ) {
+            return;
         }
 
+
+        const avisoSemMensagens =
+            document.getElementById(
+                "chat-sem-mensagens"
+            );
+
+        if (avisoSemMensagens) {
+            avisoSemMensagens.remove();
+        }
+
+
+        chatMessages.appendChild(
+            criarElementoMensagem(mensagem)
+        );
+
+
+        if (mensagem.id != null) {
+
+            idsMensagensRenderizadas.add(
+                id
+            );
+        }
+
+
+        adicionouMensagem = true;
+    });
+
+
+    /*
+        Só move o scroll se realmente chegou
+        mensagem nova e o usuário já estava
+        perto do final da conversa.
+    */
+
+    if (
+        adicionouMensagem &&
+        estavaPertoDoFinal
+    ) {
+        rolarParaFinal();
     }
 }
 
 
-// =========================================================
-// ENVIA MENSAGEM
-// =========================================================
+async function carregarMensagens() {
+
+    /*
+        Evita duas atualizações simultâneas.
+    */
+
+    if (atualizandoMensagens) {
+        return;
+    }
+
+    atualizandoMensagens = true;
+
+
+    try {
+
+        const dados =
+            await requisicao(
+                "/api/chat/mensagens"
+            );
+
+
+        const mensagens =
+            Array.isArray(dados)
+                ? dados
+                : dados.mensagens || [];
+
+
+        renderizarMensagens(
+            mensagens
+        );
+
+
+        if (statusChat) {
+            statusChat.textContent =
+                "Atendimento";
+        }
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar mensagens:",
+            erro
+        );
+
+
+        if (
+            !carregamentoInicialConcluido
+        ) {
+
+            chatMessages.innerHTML = "";
+
+            const erroElemento =
+                document.createElement("div");
+
+            erroElemento.className =
+                "chat-loading";
+
+            erroElemento.textContent =
+                erro.message;
+
+            chatMessages.appendChild(
+                erroElemento
+            );
+        }
+
+    } finally {
+
+        atualizandoMensagens = false;
+    }
+}
+
 
 async function enviarMensagem(evento) {
 
     evento.preventDefault();
 
 
-    const mensagem = chatInput.value.trim();
+    const mensagem =
+        chatInput.value.trim();
 
 
     if (!mensagem) {
-
-        mostrarAlerta(
-            "Digite uma mensagem antes de enviar."
-        );
-
         return;
     }
 
@@ -208,130 +403,118 @@ async function enviarMensagem(evento) {
     if (mensagem.length > 2000) {
 
         mostrarAlerta(
-            "A mensagem deve possuir no máximo 2000 caracteres."
+            "A mensagem pode ter no máximo 2000 caracteres."
         );
 
         return;
     }
+
+
+    chatSendButton.disabled = true;
+    chatInput.disabled = true;
 
 
     try {
 
-        chatSendButton.disabled = true;
+        await requisicao(
+            "/api/chat/mensagens",
+            {
+                method: "POST",
 
-        chatSendButton.textContent = "Enviando...";
-
-
-        const urlEnviarMensagem = new URL(
-    "/api/chat/mensagens",
-    window.location.origin
-);
-
-const resposta = await fetch(
-    urlEnviarMensagem.href,
-    {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            mensagem
-        })
-    }
-);
-
-
-        if (resposta.status === 401 || resposta.status === 403) {
-
-            localStorage.removeItem("ecomaps_token");
-
-            window.location.href = "login.html";
-
-            return;
-        }
-
-
-        const dados = await resposta.json();
-
-
-        if (!resposta.ok) {
-
-            mostrarAlerta(
-                dados.mensagem ||
-                "Não foi possível enviar a mensagem."
-            );
-
-            return;
-        }
+                body: JSON.stringify({
+                    mensagem
+                })
+            }
+        );
 
 
         chatInput.value = "";
 
-        atualizarContador();
+        contadorCaracteres.textContent =
+            "0 / 2000";
 
 
-        // Recarrega imediatamente depois do envio
+        /*
+            Após enviar, buscamos novamente.
+            Como os IDs antigos já estão salvos,
+            apenas a mensagem nova será adicionada.
+        */
+
         await carregarMensagens();
 
 
-        // Mantém o cursor no campo
-        chatInput.focus();
+        rolarParaFinal();
 
+
+        chatInput.focus();
 
     } catch (erro) {
 
-        console.error("Erro ao enviar mensagem:", erro);
-
-        mostrarAlerta(
-            "Não foi possível enviar a mensagem."
+        console.error(
+            "Erro ao enviar mensagem:",
+            erro
         );
 
+        mostrarAlerta(
+            erro.message
+        );
 
     } finally {
 
         chatSendButton.disabled = false;
-
-        chatSendButton.innerHTML = `
-            Enviar
-            <span>➤</span>
-        `;
-
+        chatInput.disabled = false;
     }
 }
 
 
-// =========================================================
-// CONTADOR DE CARACTERES
-// =========================================================
-
 function atualizarContador() {
 
-    if (!contadorCaracteres) {
-        return;
-    }
+    const quantidade =
+        chatInput.value.length;
 
     contadorCaracteres.textContent =
-        `${chatInput.value.length} / 2000`;
+        `${quantidade} / 2000`;
+}
+
+
+function ajustarAlturaTextarea() {
+
+    chatInput.style.height =
+        "auto";
+
+    chatInput.style.height =
+        `${Math.min(
+            chatInput.scrollHeight,
+            140
+        )}px`;
 }
 
 
 chatInput.addEventListener(
     "input",
-    atualizarContador
+    () => {
+
+        atualizarContador();
+
+        ajustarAlturaTextarea();
+    }
 );
 
 
-// =========================================================
-// ENTER PARA ENVIAR
-// =========================================================
+chatForm.addEventListener(
+    "submit",
+    enviarMensagem
+);
+
+
+/*
+    Enter envia.
+    Shift + Enter quebra linha.
+*/
 
 chatInput.addEventListener(
     "keydown",
-    function (evento) {
-
-        // Enter envia
-        // Shift + Enter quebra a linha
+    (evento) => {
 
         if (
             evento.key === "Enter" &&
@@ -341,96 +524,43 @@ chatInput.addEventListener(
             evento.preventDefault();
 
             chatForm.requestSubmit();
-
-        }
-
-    }
-);
-
-
-// =========================================================
-// ENVIO DO FORMULÁRIO
-// =========================================================
-
-chatForm.addEventListener(
-    "submit",
-    enviarMensagem
-);
-
-
-// =========================================================
-// INICIALIZA CHAT
-// =========================================================
-
-async function iniciarChat() {
-
-    try {
-
-        // Garante que exista uma conversa
-        const urlConversa = new URL(
-    "/api/chat/conversa",
-    window.location.origin
-);
-
-const resposta = await fetch(
-    urlConversa.href,
-    {
-        headers: {
-            Authorization: `Bearer ${token}`
         }
     }
 );
 
 
-        if (resposta.status === 401 || resposta.status === 403) {
+/*
+    Primeiro carregamento
+*/
 
-            localStorage.removeItem("ecomaps_token");
-
-            window.location.href = "login.html";
-
-            return;
-        }
+carregarMensagens();
 
 
-        if (!resposta.ok) {
+/*
+    Atualiza a conversa a cada 3 segundos.
 
-            throw new Error(
-                "Não foi possível iniciar a conversa."
-            );
+    A diferença agora é que essa atualização
+    NÃO apaga nem recria as mensagens antigas.
+*/
 
-        }
+const intervaloChat =
+    setInterval(
+        carregarMensagens,
+        3000
+    );
 
 
-        await carregarMensagens();
+/*
+    Se o usuário sair da página,
+    paramos o intervalo.
+*/
 
+window.addEventListener(
+    "beforeunload",
+    () => {
 
-    } catch (erro) {
-
-        console.error(
-            "Erro ao iniciar chat:",
-            erro
+        clearInterval(
+            intervaloChat
         );
-
-        mostrarAlerta(
-            "Não foi possível conectar ao chat."
-        );
-
     }
-
-}
-
-
-// Inicia ao abrir a página
-iniciarChat();
-
-
-// =========================================================
-// ATUALIZAÇÃO AUTOMÁTICA
-// =========================================================
-
-// Verifica mensagens novas a cada 3 segundos
-
-setInterval(
-    carregarMensagens,
-    3000
 );
